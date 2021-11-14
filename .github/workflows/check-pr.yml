@@ -1,0 +1,32 @@
+name: Check PR
+on: [pull_request]
+concurrency:
+  group: testing-db-events-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  check:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    env:
+      GCP_PROJECT: qatalog-gcp-config-test
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: setup node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '16'
+      - name: install deps
+        run: npm i
+      - name: setup gcp
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: qatalog-gcp-config-test
+          service_account_key: ${{ secrets.TEST_SERVICE_ACCOUNT_KEY }}
+          export_default_credentials: true
+      - name: lint
+        run: |
+          npm run lint
+          npm run check
+      - name: test
+        run: npm t
