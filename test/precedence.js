@@ -26,9 +26,7 @@ const SECRETS = {
 const SCHEMA = {
   foo: {
     default: DEFAULTS.foo,
-    doc: 'Foo foo foo',
     env: ENV.foo,
-    loggable: true,
     secret: SECRETS.foo,
   },
   bar: {
@@ -49,22 +47,12 @@ const SCHEMA = {
   },
 };
 
-suite('index:', () => {
+suite('precedence:', () => {
   let client, config, impl;
 
   suiteSetup(() => {
     client = new SecretManagerServiceClient();
     impl = require('../src');
-  });
-
-  test('GCP_PROJECT environment variable is set', () => {
-    assert.isString(GCP_PROJECT);
-    assert.notEqual(GCP_PROJECT, '');
-  });
-
-  test('interface loks correct', () => {
-    assert.isFunction(impl.load);
-    assert.lengthOf(impl.load, 1);
   });
 
   suite('load defaults:', () => {

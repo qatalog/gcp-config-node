@@ -1,6 +1,7 @@
 'use strict';
 
 const { assert } = require('check-types');
+const joi = require('joi');
 const { SecretManagerServiceClient } = require('@google-cloud/secret-manager');
 
 module.exports = {
@@ -21,9 +22,13 @@ async function load({ prefix, project, schema }) {
 }
 
 async function buildConfig({ client, config, keys = [], prefix, project, schema }) {
-  const value = await readValue({ client, prefix, project, schema });
+  let value = await readValue({ client, prefix, project, schema });
 
   if (value !== undefined) {
+    if (schema.schema) {
+      value = joi.attempt(value, schema.schema);
+    }
+
     setValue({ config, keys, value });
     return;
   }

@@ -5,7 +5,8 @@
   },
   "dependencies": {
     "@google-cloud/secret-manager": "^3.10.1",
-    "check-types": "^11.1.2"
+    "check-types": "^11.1.2",
+    "joi": "^17.4.2"
   },
   "devDependencies": {
     "chai": "^4.3.4",
