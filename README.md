@@ -6,6 +6,7 @@
 * [Can I still read non-secret properties from the environment?](#can-i-still-read-non-secret-properties-from-the-environment)
 * [Can I read non-secret properties from file too?](#can-i-read-non-secret-properties-from-file-too)
 * [Can I specify validation options in the schema?](#can-i-specify-validation-options-in-the-schema)
+* [Can I specify type coercion options in the schema?](#can-i-specify-type-coercion-options-in-the-schema)
 * [What is the full list of properties I can set in the schema?](#what-is-the-full-list-of-properties-i-can-set-in-the-schema)
 * [Can schema properties be nested?](#can-schema-properties-be-nested)
 * [What happens with secrets that are disabled?](#what-happens-with-secrets-that-are-disabled)
@@ -59,7 +60,7 @@ async function main() {
     },
   });
 
-  // ...
+  // `config` looks like `{ foo, bar }`
 }
 ```
 
@@ -158,6 +159,33 @@ const config = await gcpConfig.load({
 See the [joi api docs](https://joi.dev/api/)
 for more information.
 
+## Can I specify type coercion options in the schema?
+
+Yes.
+Nodes that have a `joi.string().isoDuration()` schema
+can also have a `coerce` option
+that marshalls the resulting value to the equivalent number
+of milliseconds or seconds:
+
+```js
+const config = await gcpConfig.load({
+  project: process.env.GCP_PROJECT,
+
+  schema: {
+    foo: {
+      coerce: {
+        from: 'duration',
+        to: 'milliseconds',
+      },
+      schema: joi.string().isoDuration(),
+      secret: 'foo',
+    },
+  },
+});
+```
+
+It's likely we'll add more coercion options in future.
+
 ## What is the full list of properties I can set in the schema?
 
 All properties are optional:
@@ -178,6 +206,14 @@ All properties are optional:
 
 * `schema`:
   [Joi](https://joi.dev/api/) validation schema for the value.
+
+* `coerce`:
+  Instructions for type coercion.
+  Value is an object with two properties,
+  `from` and `to`.
+  Only supports coercion from ISO 8601 `duration` strings
+  to numeric `milliseconds` or `seconds`
+  right now.
 
 ## Can schema properties be nested?
 

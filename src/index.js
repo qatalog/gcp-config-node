@@ -6,6 +6,10 @@ const { assert } = require('check-types');
 const joi = require('joi');
 const { SecretManagerServiceClient } = require('@google-cloud/secret-manager');
 
+const coerce = {
+  duration: require('./coerce-duration'),
+};
+
 module.exports = {
   load,
 };
@@ -42,6 +46,12 @@ async function buildConfig({
   if (value !== undefined) {
     if (schema.schema) {
       value = joi.attempt(value, schema.schema);
+    }
+
+    if (schema.coerce) {
+      const coercion = coerce[schema.coerce.from][schema.coerce.to];
+      assert.function(coercion);
+      value = coercion(value);
     }
 
     setValue({ config, keys, value });
