@@ -16,6 +16,15 @@ const SCHEMA = {
     env: 'BAR',
     schema: joi.number().positive(),
   },
+  baz: {
+    coerce: {
+      from: 'duration',
+      to: 'milliseconds',
+    },
+    default: 'PT5S',
+    env: 'BAZ',
+    schema: joi.string().isoDuration(),
+  },
 };
 
 suite('validation:', () => {
@@ -37,6 +46,7 @@ suite('validation:', () => {
       assert.deepEqual(config, {
         foo: 'wibble',
         bar: 42,
+        baz: 5000,
       });
     });
   });
@@ -45,6 +55,7 @@ suite('validation:', () => {
     suiteSetup(async () => {
       process.env.FOO = 'foo set from environment';
       process.env.BAR = '1977';
+      process.env.BAZ = 'P1D';
       config = await impl.load({
         project: GCP_PROJECT,
         schema: SCHEMA,
@@ -60,6 +71,7 @@ suite('validation:', () => {
       assert.deepEqual(config, {
         foo: 'foo set from environment',
         bar: 1977,
+        baz: 86400000,
       });
     });
   });
