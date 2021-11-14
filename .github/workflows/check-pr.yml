@@ -7,15 +7,18 @@ jobs:
   check:
     timeout-minutes: 5
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['14', '16', '17']
     env:
       GCP_PROJECT: qatalog-gcp-config-test
     steps:
       - name: checkout
         uses: actions/checkout@v2
       - name: setup node
-        uses: actions/setup-node@v2-beta
+        uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: ${{ matrix.node }}
       - name: install deps
         run: npm i
       - name: setup gcp

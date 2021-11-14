@@ -20,7 +20,7 @@
   },
   "description": "GCP-secrets integrated config loader",
   "engines": {
-    "node": ">=10.10.0"
+    "node": ">=14"
   },
   "homepage": "https://github.com/qatalog/gcp-config-node#readme",
   "keywords": [

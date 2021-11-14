@@ -303,7 +303,7 @@ GCP_PROJECT=my-gcp-project npm t
 
 ## What versions of Node does it support?
 
-Minimum supported node version is `10.10.0`.
+Minimum supported node version is `14`.
 
 ## What license is it released under?
 
