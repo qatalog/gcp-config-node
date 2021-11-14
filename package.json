@@ -1,0 +1,32 @@
+{
+  "author": "Qatalog Engineers <engineering@qatalog.com>",
+  "bugs": {
+    "url": "https://github.com/qatalog/gcp-config-node/issues"
+  },
+  "dependencies": {
+    "@google-cloud/secret-manager": "^3.10.1",
+    "check-types": "^11.1.2"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^9.1.3"
+  },
+  "description": "GCP-secrets integrated config loader",
+  "homepage": "https://github.com/qatalog/gcp-config-node#readme",
+  "keywords": [
+    "gcp",
+    "secret",
+    "config"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "name": "@qatalog/gcp-config",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qatalog/gcp-config-node.git"
+  },
+  "scripts": {
+    "test": "mocha --recurisve --ui tdd --timeout 8000 test"
+  },
+  "version": "0.0.0"
+}
