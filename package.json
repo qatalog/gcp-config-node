@@ -39,6 +39,7 @@
     "url": "git+https://github.com/qatalog/gcp-config-node.git"
   },
   "scripts": {
+    "authors": "git shortlog -s | cut -c8- | sort -f > AUTHORS",
     "check": "prettier -c .",
     "lint": "eslint src test",
     "format": "prettier -w .",
