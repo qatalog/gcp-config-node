@@ -21,7 +21,14 @@ async function load({ prefix, project, schema }) {
   return config;
 }
 
-async function buildConfig({ client, config, keys = [], prefix, project, schema }) {
+async function buildConfig({
+  client,
+  config,
+  keys = [],
+  prefix,
+  project,
+  schema,
+}) {
   let value = await readValue({ client, prefix, project, schema });
 
   if (value !== undefined) {
@@ -33,11 +40,20 @@ async function buildConfig({ client, config, keys = [], prefix, project, schema 
     return;
   }
 
-  await Promise.all(Object.entries(schema).map(async ([key, value]) => {
-    if (value && typeof value === 'object') {
-      await buildConfig({ client, config, keys: [...keys, key], prefix, project, schema: value });
-    }
-  }));
+  await Promise.all(
+    Object.entries(schema).map(async ([key, value]) => {
+      if (value && typeof value === 'object') {
+        await buildConfig({
+          client,
+          config,
+          keys: [...keys, key],
+          prefix,
+          project,
+          schema: value,
+        });
+      }
+    }),
+  );
 }
 
 async function readValue({ client, prefix, project, schema }) {
@@ -70,7 +86,9 @@ async function readSecret({ client, project, secret }) {
       [version] = await client.accessSecretVersion({ name });
       return version.payload.data.toString();
     }
-  } catch (_) {}
+  } catch (_) {
+    // Secrets are read optimistically, so ignore errors
+  }
 }
 
 function setValue({ config, keys, value }) {

@@ -1,0 +1,20 @@
+extends:
+  - eslint:recommended
+  - plugin:mocha/recommended
+  - plugin:prettier/recommended
+
+parserOptions:
+  ecmaVersion: 2021
+
+env:
+  es6: true
+  mocha: true
+  node: true
+
+rules:
+  comma-dangle: [2, "always-multiline"]
+  mocha/no-hooks-for-single-case: 0
+  mocha/no-mocha-arrows: 0
+  prettier/prettier: 2
+  quotes: [2, "single"]
+  strict: 2

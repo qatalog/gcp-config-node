@@ -52,8 +52,8 @@ suite('validation:', () => {
     });
 
     suiteTeardown(() => {
-      delete process.env.FOO
-      delete process.env.BAR
+      delete process.env.FOO;
+      delete process.env.BAR;
     });
 
     test('result was correct', () => {
@@ -81,8 +81,8 @@ suite('validation:', () => {
     });
 
     suiteTeardown(() => {
-      delete process.env.FOO
-      delete process.env.BAR
+      delete process.env.FOO;
+      delete process.env.BAR;
     });
 
     test('failed', () => {

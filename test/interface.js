@@ -5,7 +5,7 @@ const { assert } = require('chai');
 const { GCP_PROJECT } = process.env;
 
 suite('interface:', () => {
-  let client, config, impl;
+  let impl;
 
   suiteSetup(() => {
     impl = require('../src');

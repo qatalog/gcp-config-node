@@ -20,7 +20,7 @@ const ENV = {
 const SECRETS = {
   foo: 'foo_foo',
   baz: 'baz123',
-  blee: 'qUx_BlEe'
+  blee: 'qUx_BlEe',
 };
 
 const SCHEMA = {
@@ -207,12 +207,16 @@ async function setupSecrets(client, prefix = '') {
     }),
   ]);
   const secrets = results.map((r) => r[0].name);
-  await Promise.all(secrets.map((secret) => client.addSecretVersion({
-    parent: secret,
-    payload: {
-      data: Buffer.from(`${secret.split('/').pop()} set from gcp`, 'utf8'),
-    },
-  })));
+  await Promise.all(
+    secrets.map((secret) =>
+      client.addSecretVersion({
+        parent: secret,
+        payload: {
+          data: Buffer.from(`${secret.split('/').pop()} set from gcp`, 'utf8'),
+        },
+      }),
+    ),
+  );
   return secrets;
 }
 
