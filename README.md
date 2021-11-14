@@ -3,10 +3,11 @@
 * [What's this?](#whats-this)
 * [What's wrong with environment variables?](#whats-wrong-with-environment-variables)
 * [How do I use it?](#how-do-i-use-it)
-* [Can I specify validation options in the schema?](#can-i-specify-validation-options-in-the-schema)
-* [Can schema properties be nested?](#can-schema-properties-be-nested)
 * [Can I still read non-secret properties from the environment?](#can-i-still-read-non-secret-properties-from-the-environment)
+* [Can I read non-secret properties from file too?](#can-i-read-non-secret-properties-from-file-too)
+* [Can I specify validation options in the schema?](#can-i-specify-validation-options-in-the-schema)
 * [What is the full list of properties I can set in the schema?](#what-is-the-full-list-of-properties-i-can-set-in-the-schema)
+* [Can schema properties be nested?](#can-schema-properties-be-nested)
 * [What happens with secrets that are disabled?](#what-happens-with-secrets-that-are-disabled)
 * [How are secrets with multiple versions handled?](#how-are-secrets-with-multiple-versions-handled)
 * [Can secret names be prefixed with the runtime environment?](#can-secret-names-be-prefixed-with-the-runtime-environment)
@@ -62,68 +63,6 @@ async function main() {
 }
 ```
 
-## Can I specify validation options in the schema?
-
-Yes.
-Each property in the schema
-can set its own `schema` child property
-that's used for validation and type coercion
-when loading config.
-We use [joi](https://www.npmjs.com/package/joi) for validation
-so it can be set to any joi schema:
-
-```js
-const config = await gcpConfig.load({
-  project: process.env.GCP_PROJECT,
-
-  schema: {
-    foo: {
-      default: 'wibble',
-      schema: joi.valid('wibble', 'blee'),
-      secret: 'foo',
-    },
-
-    bar: {
-      schema: joi.number().integer().positive(),
-      secret: 'bar',
-    },
-  },
-});
-```
-
-See the [joi api docs](https://joi.dev/api/)
-for more information.
-
-## Can schema properties be nested?
-
-Yes,
-schema properties can be nested to arbitrary depth:
-
-```js
-const config = await gcpConfig.load({
-  project: process.env.GCP_PROJECT,
-
-  schema: {
-    foo: {
-      bar: {
-        default: 'wibble',
-        schema: joi.valid('wibble', 'blee'),
-        secret: 'foo_bar',
-      },
-
-      baz: {
-        qux: {
-          schema: joi.number().integer().positive(),
-          secret: 'foo_baz_qux',
-        },
-
-        // ...
-      },
-    },
-  },
-});
-```
-
 ## Can I still read non-secret properties from the environment?
 
 Yes.
@@ -160,6 +99,65 @@ you can also omit `secret` entirely
 and we'll full back to using `env`
 as the key for GCP Secret Manager too.
 
+## Can I read non-secret properties from file too?
+
+Yes.
+Pass the `file` option to `load`:
+
+```js
+const config = await gcpConfig.load({
+  file: path.join(__dirname, `${process.env.NODE_ENV}.json`),
+
+  project: process.env.GCP_PROJECT,
+
+  schema: {
+    foo: {
+      default: 'wibble',
+      secret: 'foo',
+    },
+
+    bar: {
+      secret: 'bar',
+    },
+  },
+});
+```
+
+Properties loaded via `secret` and `env` will take precedence
+over properties loaded via the `file` option.
+
+## Can I specify validation options in the schema?
+
+Yes.
+Each property in the schema
+can set its own `schema` child property
+that's used for validation and type coercion
+when loading config.
+We use [joi](https://www.npmjs.com/package/joi) for validation
+so it can be set to any joi schema:
+
+```js
+const config = await gcpConfig.load({
+  project: process.env.GCP_PROJECT,
+
+  schema: {
+    foo: {
+      default: 'wibble',
+      schema: joi.valid('wibble', 'blee'),
+      secret: 'foo',
+    },
+
+    bar: {
+      schema: joi.number().integer().positive(),
+      secret: 'bar',
+    },
+  },
+});
+```
+
+See the [joi api docs](https://joi.dev/api/)
+for more information.
+
 ## What is the full list of properties I can set in the schema?
 
 All properties are optional:
@@ -180,6 +178,36 @@ All properties are optional:
 
 * `schema`:
   [Joi](https://joi.dev/api/) validation schema for the value.
+
+## Can schema properties be nested?
+
+Yes,
+schema properties can be nested to arbitrary depth:
+
+```js
+const config = await gcpConfig.load({
+  project: process.env.GCP_PROJECT,
+
+  schema: {
+    foo: {
+      bar: {
+        default: 'wibble',
+        schema: joi.valid('wibble', 'blee'),
+        secret: 'foo_bar',
+      },
+
+      baz: {
+        qux: {
+          schema: joi.number().integer().positive(),
+          secret: 'foo_baz_qux',
+        },
+
+        // ...
+      },
+    },
+  },
+});
+```
 
 ## What happens with secrets that are disabled?
 
@@ -239,10 +267,7 @@ GCP_PROJECT=my-gcp-project npm t
 
 ## What versions of Node does it support?
 
-It's tested in current LTS,
-but there are no direct requirements on any Node APIs.
-The only hard requirements come from [grpc-js](https://www.npmjs.com/package/@grpc/grpc-js),
-which specifies: `^8.13.0 || >=10.10.0`
+Minimum supported node version is `10.10.0`.
 
 ## What license is it released under?
 

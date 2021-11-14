@@ -97,4 +97,25 @@ suite('interface:', () => {
 
     assert.isTrue(failed);
   });
+
+  test('load fails if file is invalid', async () => {
+    let failed = false;
+
+    try {
+      await impl.load({
+        file: '',
+        project: GCP_PROJECT,
+        schema: {
+          foo: {
+            default: 'foo',
+            env: 'FOO',
+          },
+        },
+      });
+    } catch (_) {
+      failed = true;
+    }
+
+    assert.isTrue(failed);
+  });
 });

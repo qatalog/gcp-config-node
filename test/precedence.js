@@ -1,5 +1,7 @@
 'use strict';
 
+const path = require('path');
+
 const { assert } = require('chai');
 const { SecretManagerServiceClient } = require('@google-cloud/secret-manager');
 
@@ -156,6 +158,28 @@ suite('precedence:', () => {
         },
       });
     });
+
+    suite('load file and secrets:', () => {
+      suiteSetup(async () => {
+        config = await impl.load({
+          file: path.join(__dirname, 'precedence.json'),
+          project: GCP_PROJECT,
+          schema: SCHEMA,
+        });
+      });
+
+      test('result was correct', () => {
+        assert.deepEqual(config, {
+          foo: `${SECRETS.foo} set from gcp`,
+          bar: DEFAULTS.bar,
+          baz: `${SECRETS.baz} set from gcp`,
+          qux: {
+            wibble: 'wibble set from file',
+            blee: `${SECRETS.blee} set from gcp`,
+          },
+        });
+      });
+    });
   });
 
   suite('load secrets with prefix:', () => {
@@ -183,6 +207,26 @@ suite('precedence:', () => {
         qux: {
           blee: `${prefix}${SECRETS.blee} set from gcp`,
         },
+      });
+    });
+  });
+
+  suite('load file:', () => {
+    let file;
+
+    suiteSetup(async () => {
+      config = await impl.load({
+        file: path.join(__dirname, 'precedence.json'),
+        project: GCP_PROJECT,
+        schema: SCHEMA,
+      });
+      file = require('./precedence.json');
+    });
+
+    test('result was correct', () => {
+      assert.deepEqual(config, {
+        ...file,
+        bar: DEFAULTS.bar,
       });
     });
   });

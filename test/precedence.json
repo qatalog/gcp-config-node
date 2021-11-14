@@ -1,0 +1,7 @@
+{
+  "foo": "foo set from file",
+  "qux": {
+    "wibble": "wibble set from file",
+    "blee": "blee set from file"
+  }
+}

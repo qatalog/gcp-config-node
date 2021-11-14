@@ -1,5 +1,7 @@
 'use strict';
 
+const fs = require('fs/promises');
+
 const { assert } = require('check-types');
 const joi = require('joi');
 const { SecretManagerServiceClient } = require('@google-cloud/secret-manager');
@@ -8,7 +10,8 @@ module.exports = {
   load,
 };
 
-async function load({ prefix, project, schema }) {
+async function load({ file, prefix, project, schema }) {
+  assert.maybe.nonEmptyString(file);
   assert.maybe.nonEmptyString(prefix);
   assert.nonEmptyString(project);
   assert.nonEmptyObject(schema);
@@ -16,7 +19,11 @@ async function load({ prefix, project, schema }) {
   const client = new SecretManagerServiceClient();
   const config = {};
 
-  await buildConfig({ client, config, prefix, project, schema });
+  if (file) {
+    file = JSON.parse(await fs.readFile(file, 'utf8'));
+  }
+
+  await buildConfig({ client, config, file, prefix, project, schema });
 
   return config;
 }
@@ -24,12 +31,13 @@ async function load({ prefix, project, schema }) {
 async function buildConfig({
   client,
   config,
+  file,
   keys = [],
   prefix,
   project,
   schema,
 }) {
-  let value = await readValue({ client, prefix, project, schema });
+  let value = await readValue({ client, file, prefix, project, schema });
 
   if (value !== undefined) {
     if (schema.schema) {
@@ -46,6 +54,7 @@ async function buildConfig({
         await buildConfig({
           client,
           config,
+          file: file?.[key],
           keys: [...keys, key],
           prefix,
           project,
@@ -56,7 +65,7 @@ async function buildConfig({
   );
 }
 
-async function readValue({ client, prefix, project, schema }) {
+async function readValue({ client, file, prefix, project, schema }) {
   const { env } = schema;
 
   if (env && process.env[env]) {
@@ -73,6 +82,10 @@ async function readValue({ client, prefix, project, schema }) {
     if (value !== undefined) {
       return value;
     }
+  }
+
+  if (file !== undefined && typeof file !== 'object') {
+    return file;
   }
 
   return schema.default;
