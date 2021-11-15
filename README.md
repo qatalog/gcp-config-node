@@ -1,10 +1,10 @@
-# qatalog/gcp-config-node
+# @qatalog/gcp-config
 
 * [What's this?](#whats-this)
 * [What's wrong with environment variables?](#whats-wrong-with-environment-variables)
 * [How do I use it?](#how-do-i-use-it)
 * [Can I still read non-secret properties from the environment?](#can-i-still-read-non-secret-properties-from-the-environment)
-* [Can I read non-secret properties from file too?](#can-i-read-non-secret-properties-from-file-too)
+* [Can I read non-secret properties from file?](#can-i-read-non-secret-properties-from-file)
 * [Can I specify validation options in the schema?](#can-i-specify-validation-options-in-the-schema)
 * [Can I specify type coercion options in the schema?](#can-i-specify-type-coercion-options-in-the-schema)
 * [What is the full list of properties I can set in the schema?](#what-is-the-full-list-of-properties-i-can-set-in-the-schema)
@@ -60,14 +60,17 @@ async function main() {
     },
   });
 
-  // `config` looks like `{ foo, bar }`
+  assert(typeof config.foo === 'string');
+  assert(typeof config.bar === 'string');
 }
 ```
 
 ## Can I still read non-secret properties from the environment?
 
 Yes.
-Use the `env` property in your schema:
+Use the `env` property in your schema
+to load a value from an environment variable
+rather than GCP Secret Manager:
 
 ```js
 const config = await gcpConfig.load({
@@ -98,9 +101,9 @@ without touching shared secrets.
 If your values for `env` and `secret` are the same,
 you can also omit `secret` entirely
 and we'll full back to using `env`
-as the key for GCP Secret Manager too.
+as the key for the secret too.
 
-## Can I read non-secret properties from file too?
+## Can I read non-secret properties from file?
 
 Yes.
 Pass the `file` option to `load`:
@@ -192,9 +195,10 @@ All properties are optional:
 
 * `default`:
   The default value,
-  used if the environment variable
-  and secret are not set
-  or not defined in the schema.
+  used as fallback if no other values are found
+  in the environment
+  or Secret Manager
+  or from file.
 
 * `env`:
   Environment variable
