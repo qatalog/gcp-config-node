@@ -14,6 +14,7 @@
 * [Can secret names be prefixed with the runtime environment?](#can-secret-names-be-prefixed-with-the-runtime-environment)
 * [How do I run the tests?](#how-do-i-run-the-tests)
 * [What versions of Node does it support?](#what-versions-of-node-does-it-support)
+* [Is there a changelog?](#is-there-a-changelog)
 * [What license is it released under?](#what-license-is-it-released-under)
 
 ## What's this?
@@ -308,6 +309,10 @@ GCP_PROJECT=my-gcp-project npm t
 ## What versions of Node does it support?
 
 Minimum supported node version is `14`.
+
+## Is there a changelog?
+
+[Yes](CHANGELOG.md).
 
 ## What license is it released under?
 
