@@ -20,9 +20,9 @@ const ENV = {
 };
 
 const SECRETS = {
-  foo: 'foo_foo',
-  baz: 'baz123',
-  blee: 'qUx_BlEe',
+  foo: `foo_${randomString()}`,
+  baz: `BAZ_${randomString()}`,
+  blee: `bLeE_${randomString()}`,
 };
 
 const SCHEMA = {
@@ -231,6 +231,10 @@ suite('precedence:', () => {
     });
   });
 });
+
+function randomString() {
+  return Math.random().toString(36).slice(2);
+}
 
 async function setupSecrets(client, prefix = '') {
   const results = await Promise.all([
