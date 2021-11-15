@@ -5,7 +5,8 @@
   },
   "dependencies": {
     "@google-cloud/secret-manager": "^3.10.1",
-    "check-types": "^11.1.2"
+    "check-types": "^11.1.2",
+    "joi": ">=6.7.0"
   },
   "devDependencies": {
     "chai": "^4.3.4",
@@ -35,9 +36,6 @@
   },
   "main": "src/index.js",
   "name": "@qatalog/gcp-config",
-  "peerDependencies": {
-    "joi": ">=6.7.0"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/qatalog/gcp-config-node.git"
