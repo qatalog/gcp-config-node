@@ -1,5 +1,16 @@
 # History
 
+## 0.2.0
+
+### New features
+
+* api: add `ignoreSecrets` option to `load` (52fd3d3425a5b29b378e361b47267e074c0f5206)
+
+### Other changes
+
+* tests: unique secret keys per test (a70801696a443ffc114436d97021b0156c2460bf)
+* docs: readme tweaks (00c44505a3417586f45366bc20621023a59af840)
+
 ## 0.1.2
 
 ### Bug fixes
