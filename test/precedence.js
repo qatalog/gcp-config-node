@@ -57,6 +57,30 @@ suite('precedence:', () => {
     impl = require('../src');
   });
 
+  suite('load nothing:', () => {
+    suiteSetup(async () => {
+      delete SCHEMA.foo.default;
+      delete SCHEMA.bar.default;
+      delete SCHEMA.qux.blee.default;
+      config = await impl.load({
+        project: GCP_PROJECT,
+        schema: SCHEMA,
+      });
+    });
+
+    suiteTeardown(() => {
+      SCHEMA.foo.default = DEFAULTS.foo;
+      SCHEMA.bar.default = DEFAULTS.bar;
+      SCHEMA.qux.blee.default = DEFAULTS.blee;
+    });
+
+    test('result was correct', () => {
+      assert.deepEqual(config, {
+        qux: {},
+      });
+    });
+  });
+
   suite('load defaults:', () => {
     suiteSetup(async () => {
       config = await impl.load({

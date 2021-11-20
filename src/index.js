@@ -21,26 +21,15 @@ async function load({ file, prefix, project, schema }) {
   assert.nonEmptyObject(schema);
 
   const client = new SecretManagerServiceClient();
-  const config = {};
 
   if (file) {
     file = JSON.parse(await fs.readFile(file, 'utf8'));
   }
 
-  await buildConfig({ client, config, file, prefix, project, schema });
-
-  return config;
+  return buildConfig({ client, file, prefix, project, schema });
 }
 
-async function buildConfig({
-  client,
-  config,
-  file,
-  keys = [],
-  prefix,
-  project,
-  schema,
-}) {
+async function buildConfig({ client, file, prefix, project, schema }) {
   let value = await readValue({ client, file, prefix, project, schema });
 
   if (value !== undefined) {
@@ -54,25 +43,34 @@ async function buildConfig({
       value = coercion(value);
     }
 
-    setValue({ config, keys, value });
-    return;
+    return value;
   }
+
+  let config;
 
   await Promise.all(
     Object.entries(schema).map(async ([key, value]) => {
       if (value && typeof value === 'object') {
-        await buildConfig({
+        if (!config) {
+          config = {};
+        }
+
+        const childValue = await buildConfig({
           client,
-          config,
           file: file?.[key],
-          keys: [...keys, key],
           prefix,
           project,
           schema: value,
         });
+
+        if (childValue !== undefined) {
+          config[key] = childValue;
+        }
       }
     }),
   );
+
+  return config;
 }
 
 async function readValue({ client, file, prefix, project, schema }) {
@@ -111,19 +109,5 @@ async function readSecret({ client, project, secret }) {
     }
   } catch (_) {
     // Secrets are read optimistically, so ignore errors
-  }
-}
-
-function setValue({ config, keys, value }) {
-  const key = keys.shift();
-
-  if (keys.length === 0) {
-    config[key] = value;
-  } else {
-    if (!config[key]) {
-      config[key] = {};
-    }
-
-    setValue({ config: config[key], keys, value });
   }
 }
