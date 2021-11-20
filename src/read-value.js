@@ -2,7 +2,14 @@
 
 module.exports = readValue;
 
-async function readValue({ client, file, prefix, project, schema }) {
+async function readValue({
+  client,
+  file,
+  ignoreSecrets,
+  prefix,
+  project,
+  schema,
+}) {
   const { env } = schema;
 
   if (env && process.env[env]) {
@@ -10,7 +17,7 @@ async function readValue({ client, file, prefix, project, schema }) {
   }
 
   let secret = schema.secret || env;
-  if (secret) {
+  if (secret && !ignoreSecrets) {
     if (prefix) {
       secret = `${prefix}${secret}`;
     }

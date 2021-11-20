@@ -11,7 +11,8 @@ module.exports = {
   load,
 };
 
-async function load({ file, prefix, project, schema }) {
+async function load({ file, ignoreSecrets, prefix, project, schema }) {
+  assert.maybe.boolean(ignoreSecrets);
   assert.maybe.nonEmptyString(file);
   assert.maybe.nonEmptyString(prefix);
   assert.nonEmptyString(project);
@@ -23,5 +24,5 @@ async function load({ file, prefix, project, schema }) {
     file = JSON.parse(await fs.readFile(file, 'utf8'));
   }
 
-  return buildConfig({ client, file, prefix, project, schema });
+  return buildConfig({ client, file, ignoreSecrets, prefix, project, schema });
 }
