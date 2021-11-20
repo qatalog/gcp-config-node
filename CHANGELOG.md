@@ -1,5 +1,13 @@
 # History
 
+## 0.1.1
+
+### Other changes
+
+* docs: retrospectively add full git sha to changelog (2b1c8b2a3a0159559e947e9fc09a9187a7ed5d41)
+* deps: upgrade `please-release-me` to `2.1.4` (35299882ac77f15e61cdf6a3e2ba52e9a948e110)
+* docs: tweak the readme for clarity (2fa96ad633b4cec06d986a99495d62efc5cfc795)
+
 ## 0.1.0
 
 ### New features
