@@ -7,71 +7,65 @@ const { SecretManagerServiceClient } = require('@google-cloud/secret-manager');
 
 const { GCP_PROJECT } = process.env;
 
-const DEFAULTS = {
-  foo: 'foo default value',
-  bar: 'value bar',
-  blee: 'value blee',
-};
-
-const ENV = {
+const ENV_VARS = {
   foo: 'FOO',
   bar: 'BAR_BAR',
   wibble: 'QUX_WIBBLE',
 };
 
-const SECRETS = {
-  foo: `foo_${randomString()}`,
-  baz: `BAZ_${randomString()}`,
-  blee: `bLeE_${randomString()}`,
-};
-
-const SCHEMA = {
-  foo: {
-    default: DEFAULTS.foo,
-    env: ENV.foo,
-    secret: SECRETS.foo,
-  },
-  bar: {
-    default: DEFAULTS.bar,
-    env: ENV.bar,
-  },
-  baz: {
-    secret: SECRETS.baz,
-  },
-  qux: {
-    wibble: {
-      env: ENV.wibble,
-    },
-    blee: {
-      default: DEFAULTS.blee,
-      secret: SECRETS.blee,
-    },
-  },
-};
-
 suite('precedence:', () => {
-  let client, config, impl;
+  let client, config, defaults, impl, schema, secretKeys;
 
   suiteSetup(() => {
     client = new SecretManagerServiceClient();
     impl = require('../src');
   });
 
+  setup(() => {
+    defaults = {
+      foo: randomString(),
+      bar: randomString(),
+      blee: randomString(),
+    };
+    secretKeys = {
+      foo: `foo_${randomString()}`,
+      baz: `BAZ_${randomString()}`,
+      blee: `bLeE_${randomString()}`,
+    };
+    schema = {
+      foo: {
+        default: defaults.foo,
+        env: ENV_VARS.foo,
+        secret: secretKeys.foo,
+      },
+      bar: {
+        default: defaults.bar,
+        env: ENV_VARS.bar,
+      },
+      baz: {
+        secret: secretKeys.baz,
+      },
+      qux: {
+        wibble: {
+          env: ENV_VARS.wibble,
+        },
+        blee: {
+          default: defaults.blee,
+          secret: secretKeys.blee,
+        },
+      },
+    };
+  });
+
   suite('load nothing:', () => {
-    suiteSetup(async () => {
-      delete SCHEMA.foo.default;
-      delete SCHEMA.bar.default;
-      delete SCHEMA.qux.blee.default;
+    setup(async () => {
+      delete schema.foo.default;
+      delete schema.bar.default;
+      delete schema.qux.blee.default;
       config = await impl.load({
         project: GCP_PROJECT,
-        schema: SCHEMA,
+        schema,
       });
-    });
-
-    suiteTeardown(() => {
-      SCHEMA.foo.default = DEFAULTS.foo;
-      SCHEMA.bar.default = DEFAULTS.bar;
-      SCHEMA.qux.blee.default = DEFAULTS.blee;
     });
 
     test('result was correct', () => {
@@ -82,39 +76,39 @@ suite('precedence:', () => {
   });
 
   suite('load defaults:', () => {
-    suiteSetup(async () => {
+    setup(async () => {
       config = await impl.load({
         project: GCP_PROJECT,
-        schema: SCHEMA,
+        schema,
       });
     });
 
     test('result was correct', () => {
       assert.deepEqual(config, {
-        foo: DEFAULTS.foo,
-        bar: DEFAULTS.bar,
+        foo: defaults.foo,
+        bar: defaults.bar,
         qux: {
-          blee: DEFAULTS.blee,
+          blee: defaults.blee,
         },
       });
     });
   });
 
   suite('load environment variables:', () => {
-    suiteSetup(async () => {
-      process.env[ENV.foo] = 'foo set from environment';
-      process.env[ENV.bar] = 'bar set from environment';
-      process.env[ENV.wibble] = 'wibble set from environment';
+    setup(async () => {
+      process.env[ENV_VARS.foo] = 'foo set from environment';
+      process.env[ENV_VARS.bar] = 'bar set from environment';
+      process.env[ENV_VARS.wibble] = 'wibble set from environment';
       config = await impl.load({
         project: GCP_PROJECT,
-        schema: SCHEMA,
+        schema,
       });
     });
 
-    suiteTeardown(() => {
-      delete process.env[ENV.foo];
-      delete process.env[ENV.bar];
-      delete process.env[ENV.wibble];
+    teardown(() => {
+      delete process.env[ENV_VARS.foo];
+      delete process.env[ENV_VARS.bar];
+      delete process.env[ENV_VARS.wibble];
     });
 
     test('result was correct', () => {
@@ -123,7 +117,7 @@ suite('precedence:', () => {
         bar: 'bar set from environment',
         qux: {
           wibble: 'wibble set from environment',
-          blee: DEFAULTS.blee,
+          blee: defaults.blee,
         },
       });
     });
@@ -131,15 +125,15 @@ suite('precedence:', () => {
     suite('load secrets and environment variables:', () => {
       let secrets;
 
-      suiteSetup(async () => {
-        secrets = await setupSecrets(client);
+      setup(async () => {
+        secrets = await setupSecrets(client, secretKeys);
         config = await impl.load({
           project: GCP_PROJECT,
-          schema: SCHEMA,
+          schema,
         });
       });
 
-      suiteTeardown(async () => {
+      teardown(async () => {
         await teardownSecrets(client, secrets);
       });
 
@@ -147,10 +141,10 @@ suite('precedence:', () => {
         assert.deepEqual(config, {
           foo: 'foo set from environment',
           bar: 'bar set from environment',
-          baz: `${SECRETS.baz} set from gcp`,
+          baz: `${secretKeys.baz} set from gcp`,
           qux: {
             wibble: 'wibble set from environment',
-            blee: `${SECRETS.blee} set from gcp`,
+            blee: `${secretKeys.blee} set from gcp`,
           },
         });
       });
@@ -160,46 +154,46 @@ suite('precedence:', () => {
   suite('load secrets:', () => {
     let secrets;
 
-    suiteSetup(async () => {
-      secrets = await setupSecrets(client);
+    setup(async () => {
+      secrets = await setupSecrets(client, secretKeys);
       config = await impl.load({
         project: GCP_PROJECT,
-        schema: SCHEMA,
+        schema,
       });
     });
 
-    suiteTeardown(async () => {
+    teardown(async () => {
       await teardownSecrets(client, secrets);
     });
 
     test('result was correct', () => {
       assert.deepEqual(config, {
-        foo: `${SECRETS.foo} set from gcp`,
-        bar: DEFAULTS.bar,
-        baz: `${SECRETS.baz} set from gcp`,
+        foo: `${secretKeys.foo} set from gcp`,
+        bar: defaults.bar,
+        baz: `${secretKeys.baz} set from gcp`,
         qux: {
-          blee: `${SECRETS.blee} set from gcp`,
+          blee: `${secretKeys.blee} set from gcp`,
         },
       });
     });
 
     suite('load file and secrets:', () => {
-      suiteSetup(async () => {
+      setup(async () => {
         config = await impl.load({
           file: path.join(__dirname, 'precedence.json'),
           project: GCP_PROJECT,
-          schema: SCHEMA,
+          schema,
         });
       });
 
       test('result was correct', () => {
         assert.deepEqual(config, {
-          foo: `${SECRETS.foo} set from gcp`,
-          bar: DEFAULTS.bar,
-          baz: `${SECRETS.baz} set from gcp`,
+          foo: `${secretKeys.foo} set from gcp`,
+          bar: defaults.bar,
+          baz: `${secretKeys.baz} set from gcp`,
           qux: {
             wibble: 'wibble set from file',
-            blee: `${SECRETS.blee} set from gcp`,
+            blee: `${secretKeys.blee} set from gcp`,
           },
         });
       });
@@ -209,27 +203,27 @@ suite('precedence:', () => {
   suite('load secrets with prefix:', () => {
     let prefix, secrets;
 
-    suiteSetup(async () => {
+    setup(async () => {
       prefix = 'TEST_';
-      secrets = await setupSecrets(client, prefix);
+      secrets = await setupSecrets(client, secretKeys, prefix);
       config = await impl.load({
         prefix,
         project: GCP_PROJECT,
-        schema: SCHEMA,
+        schema,
       });
     });
 
-    suiteTeardown(async () => {
+    teardown(async () => {
       await teardownSecrets(client, secrets);
     });
 
     test('result was correct', () => {
       assert.deepEqual(config, {
-        foo: `${prefix}${SECRETS.foo} set from gcp`,
-        bar: DEFAULTS.bar,
-        baz: `${prefix}${SECRETS.baz} set from gcp`,
+        foo: `${prefix}${secretKeys.foo} set from gcp`,
+        bar: defaults.bar,
+        baz: `${prefix}${secretKeys.baz} set from gcp`,
         qux: {
-          blee: `${prefix}${SECRETS.blee} set from gcp`,
+          blee: `${prefix}${secretKeys.blee} set from gcp`,
         },
       });
     });
@@ -238,27 +232,27 @@ suite('precedence:', () => {
   suite('ignore secrets:', () => {
     let secrets;
 
-    suiteSetup(async () => {
-      process.env[ENV.foo] = 'foo set from environment';
-      secrets = await setupSecrets(client);
+    setup(async () => {
+      process.env[ENV_VARS.foo] = 'foo set from environment';
+      secrets = await setupSecrets(client, secretKeys);
       config = await impl.load({
         ignoreSecrets: true,
         project: GCP_PROJECT,
-        schema: SCHEMA,
+        schema,
       });
     });
 
-    suiteTeardown(async () => {
+    teardown(async () => {
       await teardownSecrets(client, secrets);
-      delete process.env[ENV.foo];
+      delete process.env[ENV_VARS.foo];
     });
 
     test('result was correct', () => {
       assert.deepEqual(config, {
         foo: 'foo set from environment',
-        bar: DEFAULTS.bar,
+        bar: defaults.bar,
         qux: {
-          blee: DEFAULTS.blee,
+          blee: defaults.blee,
         },
       });
     });
@@ -267,11 +261,11 @@ suite('precedence:', () => {
   suite('load file:', () => {
     let file;
 
-    suiteSetup(async () => {
+    setup(async () => {
       config = await impl.load({
         file: path.join(__dirname, 'precedence.json'),
         project: GCP_PROJECT,
-        schema: SCHEMA,
+        schema,
       });
       file = require('./precedence.json');
     });
@@ -279,7 +273,7 @@ suite('precedence:', () => {
     test('result was correct', () => {
       assert.deepEqual(config, {
         ...file,
-        bar: DEFAULTS.bar,
+        bar: defaults.bar,
       });
     });
   });
@@ -289,22 +283,22 @@ function randomString() {
   return Math.random().toString(36).slice(2);
 }
 
-async function setupSecrets(client, prefix = '') {
+async function setupSecrets(client, secretKeys, prefix = '') {
   const results = await Promise.all([
     client.createSecret({
       parent: `projects/${GCP_PROJECT}`,
       secret: { replication: { automatic: {} } },
-      secretId: `${prefix}${SECRETS.foo}`,
+      secretId: `${prefix}${secretKeys.foo}`,
     }),
     client.createSecret({
       parent: `projects/${GCP_PROJECT}`,
       secret: { replication: { automatic: {} } },
-      secretId: `${prefix}${SECRETS.baz}`,
+      secretId: `${prefix}${secretKeys.baz}`,
     }),
     client.createSecret({
       parent: `projects/${GCP_PROJECT}`,
       secret: { replication: { automatic: {} } },
-      secretId: `${prefix}${SECRETS.blee}`,
+      secretId: `${prefix}${secretKeys.blee}`,
     }),
   ]);
   const secrets = results.map((r) => r[0].name);
