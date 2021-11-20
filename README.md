@@ -3,12 +3,12 @@
 * [What's this?](#whats-this)
 * [What's wrong with environment variables?](#whats-wrong-with-environment-variables)
 * [How do I use it?](#how-do-i-use-it)
+* [Can schema properties be nested?](#can-schema-properties-be-nested)
 * [Can I still read non-secret properties from the environment?](#can-i-still-read-non-secret-properties-from-the-environment)
 * [Can I read non-secret properties from file?](#can-i-read-non-secret-properties-from-file)
 * [Can I specify validation options in the schema?](#can-i-specify-validation-options-in-the-schema)
 * [Can I specify type coercion options in the schema?](#can-i-specify-type-coercion-options-in-the-schema)
 * [What is the full list of properties I can set in the schema?](#what-is-the-full-list-of-properties-i-can-set-in-the-schema)
-* [Can schema properties be nested?](#can-schema-properties-be-nested)
 * [What happens with secrets that are disabled?](#what-happens-with-secrets-that-are-disabled)
 * [How are secrets with multiple versions handled?](#how-are-secrets-with-multiple-versions-handled)
 * [Can secret names be prefixed with the runtime environment?](#can-secret-names-be-prefixed-with-the-runtime-environment)
@@ -43,27 +43,64 @@ that dictates how settings are loaded:
 ```js
 const gcpConfig = require('@qatalog/gcp-config');
 
+const CONFIG_SCHEMA = {
+  foo: {
+    secret: 'name_of_secret_in_gcp',
+  },
+
+  bar: {
+    default: 'default value',
+    secret: 'name_of_another_secret_in_gcp',
+  },
+
+  // ...
+};
+
+main();
+
 async function main() {
   const config = await gcpConfig.load({
     project: process.env.GCP_PROJECT,
-
-    schema: {
-      foo: {
-        default: 'default value',
-        secret: 'foo',
-      },
-
-      bar: {
-        secret: 'bar',
-      },
-
-      // ...
-    },
+    schema: CONFIG_SCHEMA,
   });
 
   assert(typeof config.foo === 'string');
   assert(typeof config.bar === 'string');
+
+  // ...
 }
+```
+
+## Can schema properties be nested?
+
+Yes,
+schema properties can be nested to arbitrary depth,
+generating the equivalent tree structure
+in the returned config object:
+
+```js
+const config = await gcpConfig.load({
+  project: process.env.GCP_PROJECT,
+
+  schema: {
+    foo: {
+      bar: {
+        secret: 'foo_bar',
+      },
+
+      baz: {
+        qux: {
+          secret: 'foo_baz_qux',
+        },
+      },
+    },
+  },
+});
+
+assert(typeof config.foo === 'object');
+assert(typeof config.foo.bar === 'string');
+assert(typeof config.foo.bar.baz === 'object');
+assert(typeof config.foo.bar.baz.qux === 'string');
 ```
 
 ## Can I still read non-secret properties from the environment?
@@ -79,12 +116,16 @@ const config = await gcpConfig.load({
 
   schema: {
     foo: {
-      default: 'wibble',
       env: 'FOO',
     },
 
     bar: {
       secret: 'bar',
+    },
+
+    baz: {
+      env: 'BAZ',
+      secret: 'baz',
     },
   },
 });
@@ -93,16 +134,18 @@ const config = await gcpConfig.load({
 It's fine to specify both the `env` and `secret` properties
 on a single node.
 When both are set,
-environment variables will take precedence
-over secrets.
+environment variables take precedence over secrets.
 This can be especially useful
-if you want to test local changes
+if you want to test changes locally,
 without touching shared secrets.
 
-If your values for `env` and `secret` are the same,
-you can also omit `secret` entirely
-and we'll full back to using `env`
-as the key for the secret too.
+Sometimes `env` and `secret` have the same name
+and in those cases you omit `secret` entirely if you like.
+When `secret` is not set,
+`load` optimistically tries to use `env`
+as the secret key instead.
+And if any key is not found in Secret Manager it's always non-fatal,
+regardless of whether it was set using `secret` or `env`.
 
 ## Can I read non-secret properties from file?
 
@@ -117,29 +160,50 @@ const config = await gcpConfig.load({
 
   schema: {
     foo: {
-      default: 'wibble',
       secret: 'foo',
     },
 
     bar: {
-      secret: 'bar',
+      baz: {
+        secret: 'bar_baz',
+      },
+
+      qux: {
+        secret: 'bar_qux',
+      },
     },
   },
 });
 ```
 
-Properties loaded via `secret` and `env` will take precedence
-over properties loaded via the `file` option.
+`file` should be the path to a JSON file
+that matches the structure of your schema:
+
+```json
+{
+  "foo": "wibble",
+  "bar": {
+    "qux": "blee"
+  }
+}
+```
+
+The file does not need to contain
+every property from the schema
+and any additional properties will be ignored.
+
+Properties loaded with the `file` option
+take precedence over default values,
+but properties loaded via `secret` or `env`
+take precedence over `file`.
 
 ## Can I specify validation options in the schema?
 
 Yes.
-Each property in the schema
-can set its own `schema` child property
-that's used for validation and type coercion
-when loading config.
+Each node can have its own `schema` property
+that's used for validation and type coercion.
 We use [joi](https://www.npmjs.com/package/joi) for validation
-so it can be set to any joi schema:
+so you can set `schema` to any joi schema:
 
 ```js
 const config = await gcpConfig.load({
@@ -147,7 +211,6 @@ const config = await gcpConfig.load({
 
   schema: {
     foo: {
-      default: 'wibble',
       schema: joi.valid('wibble', 'blee'),
       secret: 'foo',
     },
@@ -158,15 +221,27 @@ const config = await gcpConfig.load({
     },
   },
 });
+
+assert(typeof config.foo === 'string');
+assert(typeof config.bar === 'number');
 ```
 
+If a config value violates its schema,
+the promise returned by `load`
+will be rejected
+with the relevant error from `joi.attempt()`.
+This is true regardless of
+whether the value was loaded
+using `env`, `secret`, `file` or `default`.
+
 See the [joi api docs](https://joi.dev/api/)
-for more information.
+for more information
+about validation and type coercion.
 
 ## Can I specify type coercion options in the schema?
 
 Yes.
-Nodes that have a `joi.string().isoDuration()` schema
+Nodes with a `joi.string().isoDuration()` schema
 can also have a `coerce` option
 that marshalls the resulting value to the equivalent number
 of milliseconds or seconds:
@@ -186,20 +261,15 @@ const config = await gcpConfig.load({
     },
   },
 });
+
+assert(typeof config.foo === 'number');
 ```
 
-It's likely we'll add more coercion options in future.
+It's likely we'll add more type coercion options in future.
 
 ## What is the full list of properties I can set in the schema?
 
 All properties are optional:
-
-* `default`:
-  The default value,
-  used as fallback if no other values are found
-  in the environment
-  or Secret Manager
-  or from file.
 
 * `env`:
   Environment variable
@@ -208,6 +278,11 @@ All properties are optional:
 
 * `secret`:
   The key to lookup the value in GCP Secret Manager.
+
+* `default`:
+  The default value,
+  used as fallback if no other values are found
+  in the environment, Secret Manager or from file.
 
 * `schema`:
   [Joi](https://joi.dev/api/) validation schema for the value.
@@ -219,36 +294,6 @@ All properties are optional:
   Only supports coercion from ISO 8601 `duration` strings
   to numeric `milliseconds` or `seconds`
   right now.
-
-## Can schema properties be nested?
-
-Yes,
-schema properties can be nested to arbitrary depth:
-
-```js
-const config = await gcpConfig.load({
-  project: process.env.GCP_PROJECT,
-
-  schema: {
-    foo: {
-      bar: {
-        default: 'wibble',
-        schema: joi.valid('wibble', 'blee'),
-        secret: 'foo_bar',
-      },
-
-      baz: {
-        qux: {
-          schema: joi.number().integer().positive(),
-          secret: 'foo_baz_qux',
-        },
-
-        // ...
-      },
-    },
-  },
-});
-```
 
 ## What happens with secrets that are disabled?
 
@@ -262,10 +307,11 @@ The greatest, non-disabled version of the secret will be used.
 ## Can secret names be prefixed with the runtime environment?
 
 Yes.
-If you prefix your secrets in GCP,
+If you prefix the keys for your secrets in GCP,
 e.g. `production_foo` and `integration_foo`,
-you can specify the prefix to use in the call to `load`
-and keep the schema constant across all environments:
+you can specify that prefix in the call to `load`
+and keep the body of your schema
+constant across all environments:
 
 ```js
 const config = await gcpConfig.load({
@@ -275,12 +321,8 @@ const config = await gcpConfig.load({
 
   schema: {
     foo: {
-      default: 'wibble',
+      // Might load `production_foo` or `development_foo` etc
       secret: 'foo',
-    },
-
-    bar: {
-      secret: 'bar',
     },
   },
 });
@@ -296,13 +338,17 @@ gcloud auth login
 ```
 
 You also need to set the `GCP_PROJECT` environment variable.
-The tests will create (and then delete) secrets,
+The tests will create, read and delete secrets,
 so you should use a clean project
 that doesn't contain any real infrastructure.
+Your IAM user or service account
+will need the `Secret Manager Admin`
+and `Secret Manager Secret Accessor` roles.
 
-Then you can just run `npm t`:
+With all that set,
+you can run the tests with `npm t`:
 
-```
+```sh
 GCP_PROJECT=my-gcp-project npm t
 ```
 
