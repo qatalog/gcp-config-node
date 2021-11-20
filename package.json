@@ -49,5 +49,5 @@
     "release": "release",
     "test": "mocha --recurisve --ui tdd --timeout 8000 test"
   },
-  "version": "0.1.1"
+  "version": "0.1.2"
 }

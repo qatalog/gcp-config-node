@@ -1,5 +1,15 @@
 # History
 
+## 0.1.2
+
+### Bug fixes
+
+* defaults: ensure empty schema nodes get actualised in the result (4682305fb58ef9b920c16e4b77c9588356508cfb)
+
+### Refactorings
+
+* impl: pull logic out to focused modules (89a55d57bf37ad92ac55d460ffc30db59b3e20bf)
+
 ## 0.1.1
 
 ### Other changes
