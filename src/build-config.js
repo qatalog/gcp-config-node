@@ -10,8 +10,22 @@ const readValue = require('./read-value');
 
 module.exports = buildConfig;
 
-async function buildConfig({ client, file, prefix, project, schema }) {
-  let value = await readValue({ client, file, prefix, project, schema });
+async function buildConfig({
+  client,
+  file,
+  ignoreSecrets,
+  prefix,
+  project,
+  schema,
+}) {
+  let value = await readValue({
+    client,
+    file,
+    ignoreSecrets,
+    prefix,
+    project,
+    schema,
+  });
 
   if (value !== undefined) {
     if (schema.schema) {
@@ -39,6 +53,7 @@ async function buildConfig({ client, file, prefix, project, schema }) {
         const childValue = await buildConfig({
           client,
           file: file?.[key],
+          ignoreSecrets,
           prefix,
           project,
           schema: value,

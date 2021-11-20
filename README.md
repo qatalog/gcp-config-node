@@ -12,6 +12,7 @@
 * [What happens with secrets that are disabled?](#what-happens-with-secrets-that-are-disabled)
 * [How are secrets with multiple versions handled?](#how-are-secrets-with-multiple-versions-handled)
 * [Can secret names be prefixed with the runtime environment?](#can-secret-names-be-prefixed-with-the-runtime-environment)
+* [Is there a way to disable reading secrets at runtime?](#is-there-a-way-to-disable-reading-secrets-at-runtime)
 * [How do I run the tests?](#how-do-i-run-the-tests)
 * [What versions of Node does it support?](#what-versions-of-node-does-it-support)
 * [Is there a changelog?](#is-there-a-changelog)
@@ -329,6 +330,34 @@ const config = await gcpConfig.load({
   },
 });
 ```
+
+## Is there a way to disable reading secrets at runtime?
+
+Yes.
+Secrets will not be loaded
+if the `ignoreSecrets` option to `load` is `true`:
+
+```js
+const config = await gcpConfig.load({
+  ignoreSecrets: process.env.NODE_ENV === 'test',
+
+  project: process.env.GCP_PROJECT,
+
+  schema: {
+    foo: {
+      default: 'default value',
+      // Won't be loaded when `NODE_ENV` is `test`
+      secret: 'foo',
+    },
+  },
+});
+```
+
+This can be useful in test environments,
+when running many tests in quick succession
+can exceed the available read quota
+for Secret Manager.
+Nobody likes flaky tests.
 
 ## How do I run the tests?
 

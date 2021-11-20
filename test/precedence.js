@@ -235,6 +235,35 @@ suite('precedence:', () => {
     });
   });
 
+  suite('ignore secrets:', () => {
+    let secrets;
+
+    suiteSetup(async () => {
+      process.env[ENV.foo] = 'foo set from environment';
+      secrets = await setupSecrets(client);
+      config = await impl.load({
+        ignoreSecrets: true,
+        project: GCP_PROJECT,
+        schema: SCHEMA,
+      });
+    });
+
+    suiteTeardown(async () => {
+      await teardownSecrets(client, secrets);
+      delete process.env[ENV.foo];
+    });
+
+    test('result was correct', () => {
+      assert.deepEqual(config, {
+        foo: 'foo set from environment',
+        bar: DEFAULTS.bar,
+        qux: {
+          blee: DEFAULTS.blee,
+        },
+      });
+    });
+  });
+
   suite('load file:', () => {
     let file;
 
