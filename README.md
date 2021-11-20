@@ -73,8 +73,8 @@ async function main() {
 
 ## Can schema properties be nested?
 
-Yes,
-schema properties can be nested to arbitrary depth,
+Yes.
+Schema properties can be nested to arbitrary depth,
 generating the equivalent tree structure
 in the returned config object:
 
@@ -140,7 +140,7 @@ if you want to test changes locally,
 without touching shared secrets.
 
 Sometimes `env` and `secret` have the same name
-and in those cases you omit `secret` entirely if you like.
+and in those cases you can omit `secret` entirely if you like.
 When `secret` is not set,
 `load` optimistically tries to use `env`
 as the secret key instead.
@@ -206,6 +206,8 @@ We use [joi](https://www.npmjs.com/package/joi) for validation
 so you can set `schema` to any joi schema:
 
 ```js
+const joi = require('joi');
+
 const config = await gcpConfig.load({
   project: process.env.GCP_PROJECT,
 
