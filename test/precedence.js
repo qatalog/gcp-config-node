@@ -199,106 +199,28 @@ suite('precedence:', () => {
       });
     });
   });
-
-  suite('load secrets with prefix:', () => {
-    let prefix, secrets;
-
-    setup(async () => {
-      prefix = 'TEST_';
-      secrets = await setupSecrets(client, secretKeys, prefix);
-      config = await impl.load({
-        prefix,
-        project: GCP_PROJECT,
-        schema,
-      });
-    });
-
-    teardown(async () => {
-      await teardownSecrets(client, secrets);
-    });
-
-    test('result was correct', () => {
-      assert.deepEqual(config, {
-        foo: `${prefix}${secretKeys.foo} set from gcp`,
-        bar: defaults.bar,
-        baz: `${prefix}${secretKeys.baz} set from gcp`,
-        qux: {
-          blee: `${prefix}${secretKeys.blee} set from gcp`,
-        },
-      });
-    });
-  });
-
-  suite('ignore secrets:', () => {
-    let secrets;
-
-    setup(async () => {
-      process.env[ENV_VARS.foo] = 'foo set from environment';
-      secrets = await setupSecrets(client, secretKeys);
-      config = await impl.load({
-        ignoreSecrets: true,
-        project: GCP_PROJECT,
-        schema,
-      });
-    });
-
-    teardown(async () => {
-      await teardownSecrets(client, secrets);
-      delete process.env[ENV_VARS.foo];
-    });
-
-    test('result was correct', () => {
-      assert.deepEqual(config, {
-        foo: 'foo set from environment',
-        bar: defaults.bar,
-        qux: {
-          blee: defaults.blee,
-        },
-      });
-    });
-  });
-
-  suite('load file:', () => {
-    let file;
-
-    setup(async () => {
-      config = await impl.load({
-        file: path.join(__dirname, 'precedence.json'),
-        project: GCP_PROJECT,
-        schema,
-      });
-      file = require('./precedence.json');
-    });
-
-    test('result was correct', () => {
-      assert.deepEqual(config, {
-        ...file,
-        bar: defaults.bar,
-      });
-    });
-  });
 });
 
 function randomString() {
   return Math.random().toString(36).slice(2);
 }
 
-async function setupSecrets(client, secretKeys, prefix = '') {
+async function setupSecrets(client, secretKeys) {
   const results = await Promise.all([
     client.createSecret({
       parent: `projects/${GCP_PROJECT}`,
       secret: { replication: { automatic: {} } },
-      secretId: `${prefix}${secretKeys.foo}`,
+      secretId: secretKeys.foo,
     }),
     client.createSecret({
       parent: `projects/${GCP_PROJECT}`,
       secret: { replication: { automatic: {} } },
-      secretId: `${prefix}${secretKeys.baz}`,
+      secretId: secretKeys.baz,
     }),
     client.createSecret({
       parent: `projects/${GCP_PROJECT}`,
       secret: { replication: { automatic: {} } },
-      secretId: `${prefix}${secretKeys.blee}`,
+      secretId: secretKeys.blee,
     }),
   ]);
   const secrets = results.map((r) => r[0].name);
