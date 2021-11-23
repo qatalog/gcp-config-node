@@ -1,7 +1,7 @@
 name: Check PR
 on: [pull_request]
 concurrency:
-  group: testing-db-events-${{ github.ref }}
+  group: check-pr-${{ github.ref }}
   cancel-in-progress: true
 jobs:
   check:
