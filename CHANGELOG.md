@@ -1,5 +1,19 @@
 # History
 
+## 0.2.1
+
+### Bug fixes
+
+* ci: also add `joi` to `devDependencies` (5b45b403b62bf50efe6ed2c6d0a174602dc1b6c4)
+
+### Refactorings
+
+* tests: extract a separate test module for options (d6bcce0f244d94c180b7144d532e3caf0998edd4)
+
+### Other changes
+
+* deps: move `joi` back to `peerDepedencies` (0eb0678548fbe5af43fe338c28b73f1d1baec5d7)
+
 ## 0.2.0
 
 ### New features
