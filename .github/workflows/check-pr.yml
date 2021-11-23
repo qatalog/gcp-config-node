@@ -7,6 +7,9 @@ jobs:
   check:
     timeout-minutes: 5
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
     strategy:
       matrix:
         node: ['14', '16', '17']
@@ -31,3 +34,22 @@ jobs:
         run: npm run lint
       - name: test
         run: npm t
+  codeql:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'javascript' ]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: init
+        uses: github/codeql-action/init@v1
+        with:
+          languages: ${{ matrix.language }}
+      - name: analyse
+        uses: github/codeql-action/analyze@v1
