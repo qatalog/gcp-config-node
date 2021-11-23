@@ -1,5 +1,5 @@
 name: CodeQL analysis
-on: [pull_request]
+on:
   push:
     branches: [main]
   schedule:
