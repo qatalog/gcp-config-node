@@ -1,5 +1,22 @@
 # History
 
+## 0.3.0
+
+### New features
+
+* api: implement `required` schema option (15629a01007844fe0486b43327cfa6b5952dbf1b)
+
+### Bug fixes
+
+* ci: fix invalid yaml in codeql config (9e213ef535c10b4414d03a7259ed20b05281fbdd)
+
+### Other changes
+
+* docs: add `require('joi')` to example code (2a427873977dc4806536d53b1d71f9c2e6d1602e)
+* ci: fix yaml formatting (7f3c7433a060f4bd410a6e425bdfc3d9beb16ad1)
+* ci: enable codeql analysis (3149da00f1c80bdc9b1f70d8abd4d6251c7f7f8f)
+* ci: rename `check-pr` concurrency group (cf9a13e444e439a5db6a7a8f16ceda92b4d5bc9f)
+
 ## 0.2.1
 
 ### Bug fixes
