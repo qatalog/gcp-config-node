@@ -8,6 +8,7 @@
 * [Can I read non-secret properties from file?](#can-i-read-non-secret-properties-from-file)
 * [Can I specify validation options in the schema?](#can-i-specify-validation-options-in-the-schema)
 * [Can I specify type coercion options in the schema?](#can-i-specify-type-coercion-options-in-the-schema)
+* [Can I flag properties as required?](#can-i-flag-properties-as-required)
 * [What is the full list of properties I can set in the schema?](#what-is-the-full-list-of-properties-i-can-set-in-the-schema)
 * [What happens with secrets that are disabled?](#what-happens-with-secrets-that-are-disabled)
 * [How are secrets with multiple versions handled?](#how-are-secrets-with-multiple-versions-handled)
@@ -145,7 +146,7 @@ and in those cases you can omit `secret` entirely if you like.
 When `secret` is not set,
 `load` optimistically tries to use `env`
 as the secret key instead.
-And if any key is not found in Secret Manager it's always non-fatal,
+And if any non-`required` key is not found in Secret Manager it's non-fatal,
 regardless of whether it was set using `secret` or `env`.
 
 ## Can I read non-secret properties from file?
@@ -270,6 +271,35 @@ assert(typeof config.foo === 'number');
 
 It's likely we'll add more type coercion options in future.
 
+## Can I flag properties as required?
+
+Yes.
+Set `required: true` on those nodes in your schema:
+
+
+```js
+const config = await gcpConfig.load({
+  project: process.env.GCP_PROJECT,
+
+  schema: {
+    foo: {
+      required: true,
+      secret: 'foo',
+    },
+
+    bar: {
+      required: true,
+      secret: 'bar',
+    },
+  },
+});
+```
+
+If required properties are not set by any data source,
+the promise returned from `load` will be rejected.
+Required properties with default values
+will never fail.
+
 ## What is the full list of properties I can set in the schema?
 
 All properties are optional:
@@ -297,6 +327,11 @@ All properties are optional:
   Only supports coercion from ISO 8601 `duration` strings
   to numeric `milliseconds` or `seconds`
   right now.
+
+* `required`:
+  Boolean indicating whether absence of the value
+  should be treated as an error.
+  Defaults to `false`.
 
 ## What happens with secrets that are disabled?
 
