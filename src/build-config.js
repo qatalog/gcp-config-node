@@ -27,6 +27,10 @@ async function buildConfig({
     schema,
   });
 
+  if (schema.required) {
+    assert.not.undefined(value);
+  }
+
   if (value !== undefined) {
     if (schema.schema) {
       value = joi.attempt(value, schema.schema);

@@ -101,4 +101,31 @@ suite('validation:', () => {
       assert.instanceOf(error, Error);
     });
   });
+
+  suite('load missing required value:', () => {
+    let error, schema;
+
+    suiteSetup(async () => {
+      schema = {
+        ...SCHEMA,
+        foo: {
+          env: 'FOO',
+          required: true,
+          schema: joi.string(),
+        },
+      };
+      try {
+        config = await impl.load({
+          project: GCP_PROJECT,
+          schema,
+        });
+      } catch (e) {
+        error = e;
+      }
+    });
+
+    test('failed', () => {
+      assert.instanceOf(error, Error);
+    });
+  });
 });
