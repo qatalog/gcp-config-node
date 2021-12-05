@@ -44,6 +44,7 @@ that dictates how settings are loaded:
 
 ```js
 const gcpConfig = require('@qatalog/gcp-config');
+const joi = require('joi');
 
 const CONFIG_SCHEMA = {
   foo: {
