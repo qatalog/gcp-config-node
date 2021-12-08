@@ -12,11 +12,11 @@ module.exports = {
 };
 
 async function load({ file, ignoreSecrets, prefix, project, schema }) {
-  assert.maybe.boolean(ignoreSecrets);
-  assert.maybe.nonEmptyString(file);
-  assert.maybe.nonEmptyString(prefix);
-  assert.nonEmptyString(project);
-  assert.nonEmptyObject(schema);
+  assert.maybe.boolean(ignoreSecrets, 'invalid `ignoreSecrets` option');
+  assert.maybe.nonEmptyString(file, 'invalid `file` option');
+  assert.maybe.nonEmptyString(prefix, 'invalid `prefix` option');
+  assert.nonEmptyString(project, 'invalid `project` option');
+  assert.nonEmptyObject(schema, 'invalid `schema` option');
 
   const client = new SecretManagerServiceClient();
 

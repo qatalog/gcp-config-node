@@ -19,6 +19,7 @@ async function buildConfig({
   project,
   schema,
 }) {
+  const path = keys.join('.');
   let value = await readValue({
     client,
     file,
@@ -29,7 +30,7 @@ async function buildConfig({
   });
 
   if (schema.required) {
-    assert.not.undefined(value, `\`${keys.join('.')}\` is required`);
+    assert.not.undefined(value, `\`${path}\` is required`);
   }
 
   if (value !== undefined) {
@@ -39,7 +40,7 @@ async function buildConfig({
 
     if (schema.coerce) {
       const coercion = coerce[schema.coerce.from][schema.coerce.to];
-      assert.function(coercion);
+      assert.function(coercion, `\`${path}.coerce\` must be a function`);
       value = coercion(value);
     }
 
