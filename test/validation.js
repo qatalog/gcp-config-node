@@ -126,6 +126,36 @@ suite('validation:', () => {
 
     test('failed', () => {
       assert.instanceOf(error, Error);
+      assert.equal(error.message, '`foo` is required');
+    });
+  });
+
+  suite('load missing required value (nested):', () => {
+    let error, schema;
+
+    suiteSetup(async () => {
+      schema = {
+        ...SCHEMA,
+        wibble: {
+          blee: {
+            env: 'WIBBLE_BLEE',
+            required: true,
+            schema: joi.string(),
+          },
+        },
+      };
+      try {
+        config = await impl.load({
+          project: GCP_PROJECT,
+          schema,
+        });
+      } catch (e) {
+        error = e;
+      }
+    });
+
+    test('error message was correct', () => {
+      assert.equal(error.message, '`wibble.blee` is required');
     });
   });
 });
