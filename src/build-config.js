@@ -13,6 +13,7 @@ module.exports = buildConfig;
 async function buildConfig({
   client,
   file,
+  keys = [],
   ignoreSecrets,
   prefix,
   project,
@@ -28,7 +29,7 @@ async function buildConfig({
   });
 
   if (schema.required) {
-    assert.not.undefined(value);
+    assert.not.undefined(value, `\`${keys.join('.')}\` is required`);
   }
 
   if (value !== undefined) {
@@ -57,6 +58,7 @@ async function buildConfig({
         const childValue = await buildConfig({
           client,
           file: file?.[key],
+          keys: [...keys, key],
           ignoreSecrets,
           prefix,
           project,
