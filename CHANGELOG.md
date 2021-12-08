@@ -1,5 +1,11 @@
 # History
 
+## 0.4.1
+
+### Bug fixes
+
+* validation: more useful error messages across the board (e2d4d3dd963861f5e17965020f2702cb34b59a6b)
+
 ## 0.4.0
 
 ### New features
