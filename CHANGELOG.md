@@ -1,5 +1,11 @@
 # History
 
+## 0.4.0
+
+### New features
+
+* validation: include keys in `required` error (bab488d599f962ddffed28ca168f88ddb32144f5)
+
 ## 0.3.0
 
 ### New features
