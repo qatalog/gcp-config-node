@@ -1,5 +1,27 @@
 # History
 
+## 0.5.0
+
+### New features
+
+* secrets: retry failed secrets once to mitigate intermittent errors (458fd933d3df04e630428a78f0656ce07bf79ec4)
+
+### Other changes
+
+* deps-dev: bump lint-staged from 12.1.4 to 12.1.5 (8217b2aacccf92f7453006e88a43bc7e98352570)
+* deps-dev: bump eslint from 8.5.0 to 8.6.0 (4885d42121eebe175e7d79ad292eceda4dcce6c9)
+* deps-dev: bump lint-staged from 12.1.3 to 12.1.4 (bb7481b6be0dd7c25bc622fc7950d989f36e0964)
+* deps-dev: bump eslint from 8.4.1 to 8.5.0 (b70507993b769fe10d2e7a7c13ebd9e89fa1fadc)
+* deps-dev: bump lint-staged from 12.1.2 to 12.1.3 (1b2ef3e98158e8e63b881fdc688287f879140d8c)
+* deps-dev: bump eslint-plugin-mocha from 10.0.1 to 10.0.3 (e1b5b10f8b3d8060102445c1a7f0ae32daa6626f)
+* deps-dev: bump eslint-plugin-mocha from 10.0.0 to 10.0.1 (24ab8199fb489455eb2dba4cb03be9d31a17e347)
+* deps-dev: bump prettier from 2.4.1 to 2.5.1 (71c90b1ecc0d10d6972ee46802cf4fab0548673d)
+* deps-dev: bump lint-staged from 11.2.6 to 12.1.2 (247461c9cce8ba091168d4d16a7e34622fa14d9e)
+* deps-dev: bump eslint-plugin-mocha from 9.0.0 to 10.0.0 (cb1986ef948d3af393f7372b1c8653172b97d05d)
+* deps-dev: bump joi from 17.4.2 to 17.5.0 (1a870f51e2b90d90d8af3f3cf3add3280b4ab0f4)
+* deps-dev: bump eslint from 8.2.0 to 8.4.1 (ebbb54064e6e85f68c2c945c8a47af28977b394b)
+* deps: enable dependabot (e058f12dd4a3df13b64fec2214456be96adbc05c)
+
 ## 0.4.1
 
 ### Bug fixes
