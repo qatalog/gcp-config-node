@@ -35,7 +35,7 @@ async function readValue({
   return schema.default;
 }
 
-async function readSecret({ client, project, secret }) {
+async function readSecret({ client, isRetry = false, project, secret }) {
   try {
     const name = `projects/${project}/secrets/${secret}/versions/latest`;
     let [version] = await client.getSecretVersion({ name });
@@ -44,6 +44,11 @@ async function readSecret({ client, project, secret }) {
       return version.payload.data.toString();
     }
   } catch (_) {
-    // Secrets are read optimistically, so ignore errors
+    if (!isRetry) {
+      // Retry once to mitigate intermittent network failure
+      return readSecret({ client, isRetry: true, project, secret });
+    }
+
+    // Secrets are read optimistically, so ignore persistent errors
   }
 }
