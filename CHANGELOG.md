@@ -1,5 +1,13 @@
 # History
 
+## 0.5.1
+
+### Other changes
+
+* read-value: throw exception when error different from not found (#27) (50a6f9d34d2363e822d99252b4f59d461853f569)
+* retry: dont retry on specific error codes (d9da074736ece3bbb5c0e9d0be6c268a4ca55c1c)
+* deps-dev: bump lint-staged from 12.1.5 to 12.1.7 (266999b6f1d2a95300aba52b5053de7edc6cc98a)
+
 ## 0.5.0
 
 ### New features
