@@ -1,5 +1,12 @@
 'use strict';
 
+// Error codes which should not be retried.
+// Ref: https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto
+const ERROR_CODES_NO_RETRY = new Set([
+  3, // INVALID ARGUMENT
+  5, // NOT FOUND
+]);
+
 module.exports = readValue;
 
 async function readValue({
@@ -10,7 +17,10 @@ async function readValue({
   project,
   schema,
 }) {
-  const { env } = schema;
+  let { env } = schema;
+  if (typeof env !== 'string') {
+    env = undefined;
+  }
 
   if (env && process.env[env]) {
     return process.env[env];
@@ -43,8 +53,8 @@ async function readSecret({ client, isRetry = false, project, secret }) {
       [version] = await client.accessSecretVersion({ name });
       return version.payload.data.toString();
     }
-  } catch (_) {
-    if (!isRetry) {
+  } catch (e) {
+    if (!isRetry && !ERROR_CODES_NO_RETRY.has(e.code)) {
       // Retry once to mitigate intermittent network failure
       return readSecret({ client, isRetry: true, project, secret });
     }
