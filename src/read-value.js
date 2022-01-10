@@ -6,6 +6,10 @@ const ERROR_CODES_NO_RETRY = new Set([
   3, // INVALID ARGUMENT
   5, // NOT FOUND
 ]);
+// Error codes to ignore
+const ERROR_CODES_IGNORE = new Set([
+  5, // NOT FOUND
+]);
 
 module.exports = readValue;
 
@@ -59,6 +63,8 @@ async function readSecret({ client, isRetry = false, project, secret }) {
       return readSecret({ client, isRetry: true, project, secret });
     }
 
-    // Secrets are read optimistically, so ignore persistent errors
+    if (!ERROR_CODES_IGNORE.has(e.code)) {
+      throw e;
+    }
   }
 }
