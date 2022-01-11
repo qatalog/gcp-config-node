@@ -115,4 +115,48 @@ suite('read-value:', () => {
       assert.isUndefined(error);
     });
   });
+
+  suite('non-string schema keys', () => {
+    let mockClient;
+    setup(() => {
+      mockClient = {
+        accessSecretVersion: sinon.stub(),
+        getSecretVersion: sinon.stub(),
+      };
+    });
+
+    test('read-value does not try to fetch secret from GCP when schema.secret is not a string', async () => {
+      await buildConfig({
+        client: mockClient,
+        project: GCP_PROJECT,
+        schema: {
+          email: {
+            secret: {
+              default: 'super-private',
+              doc: 'Crypto secret for email auth tokens',
+            },
+          },
+        },
+      });
+
+      assert.equal(mockClient.getSecretVersion.callCount, 0);
+    });
+
+    test('read-value does not try to fetch secret from GCP when schema.env is not a string', async () => {
+      await buildConfig({
+        client: mockClient,
+        project: GCP_PROJECT,
+        schema: {
+          email: {
+            env: {
+              default: 'interesting-env',
+              doc: 'Environment to use in CI for tests',
+            },
+          },
+        },
+      });
+
+      assert.equal(mockClient.getSecretVersion.callCount, 0);
+    });
+  });
 });
