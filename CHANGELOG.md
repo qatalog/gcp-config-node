@@ -1,5 +1,11 @@
 # History
 
+## 0.5.2
+
+### Other changes
+
+* read-value: skip read-value when secret is not string (#28) (813928001a0c21415fdd0a3c3fb5bae367f039a8)
+
 ## 0.5.1
 
 ### Other changes
