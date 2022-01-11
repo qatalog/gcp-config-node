@@ -21,16 +21,19 @@ async function readValue({
   project,
   schema,
 }) {
-  let { env } = schema;
+  let { env, secret: schemaSecret } = schema;
   if (typeof env !== 'string') {
     env = undefined;
+  }
+  if (typeof schemaSecret !== 'string') {
+    schemaSecret = undefined;
   }
 
   if (env && process.env[env]) {
     return process.env[env];
   }
 
-  let secret = schema.secret || env;
+  let secret = schemaSecret || env;
   if (secret && !ignoreSecrets) {
     if (prefix) {
       secret = `${prefix}${secret}`;
