@@ -44,6 +44,9 @@
     "type": "git",
     "url": "git+https://github.com/qatalog/gcp-config-node.git"
   },
+  "resolutions": {
+    "google-p12-pem": "^3.1.3"
+  },
   "scripts": {
     "authors": "git shortlog -s | cut -c8- | sort -f > AUTHORS",
     "check": "prettier -c .",
