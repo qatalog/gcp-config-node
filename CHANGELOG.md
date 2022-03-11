@@ -1,5 +1,38 @@
 # History
 
+## 0.5.3
+
+### Bug fixes
+
+* read-value: disabled secrets now throw exceptions (#55) (72ede71a6eea6c3b18a5da202cbc0f85a4683f4d)
+
+### Other changes
+
+* deps-dev: bump lint-staged from 12.3.4 to 12.3.5 (dd77a2fd53a952208f5e392a7246dffbb913d3b7)
+* deps-dev: bump eslint-config-prettier from 8.3.0 to 8.4.0 (d3ca5e2a34531262882ceb42b554aab27ef1b35c)
+* deps-dev: bump mocha from 9.2.0 to 9.2.1 (2ac575109deb806bc547efaa464256c7792eb314)
+* deps-dev: bump lint-staged from 12.3.3 to 12.3.4 (cdf4f2962fb69aec79188fb71efd286eb45a51a3)
+* deps-dev: bump eslint from 8.8.0 to 8.9.0 (c3693cbca91bf2adcd75d52bdb7a99cf00bf1b51)
+* deps: bump @google-cloud/secret-manager from 3.10.1 to 3.11.0 (cbae5c3892765262ead8f2fdd363bd2beb6f3737)
+* deps-dev: bump sinon from 13.0.0 to 13.0.1 (e2fba5857a83de6eb422b2730592b2e041cba25b)
+* deps-dev: bump lint-staged from 12.3.2 to 12.3.3 (8f342297415e7b0d81a6f5bb1cd87c74933ece7e)
+* deps-dev: bump sinon from 12.0.1 to 13.0.0 (41cf4dd1515c260e3c33014fb428b0e50c394a7f)
+* deps-dev: bump eslint from 8.7.0 to 8.8.0 (eec6fece07234e2e159ff058b4415a6e8a2c1430)
+* deps-dev: bump joi from 17.5.0 to 17.6.0 (531075ab0951e627d0f6d557cf65575470ebf6f1)
+* deps-dev: bump lint-staged from 12.3.1 to 12.3.2 (0408c1edbb06f35974e97e9549d1d080602c5994)
+* deps-dev: bump chai from 4.3.5 to 4.3.6 (5704d03a3e5e18803bfdbed1a39527f97299c016)
+* deps-dev: bump chai from 4.3.4 to 4.3.5 (16be006450d6d90d1ee07022a882d60f8783f350)
+* deps: upgrade `node-fetch` to `2.6.7` (a41ddf70cf1962ae26f870d61b219cd377f796c9)
+* deps-dev: bump lint-staged from 12.2.2 to 12.3.1 (d01f9869cfc9b0e4b41ef401602b103f7bff2b2e)
+* deps-dev: bump mocha from 9.1.4 to 9.2.0 (2a87ba9c2b687d5b7522421ea28551b29b4c5b8f)
+* deps-dev: bump lint-staged from 12.2.1 to 12.2.2 (79da742c0b4b715556bca325c6af98d53e4aaa63)
+* deps-dev: bump lint-staged from 12.2.0 to 12.2.1 (51b2571163a2c54555a53ad19c215a989afd7350)
+* deps-dev: bump lint-staged from 12.1.7 to 12.2.0 (5d991e24be6096386983c17a61b347e84988c24b)
+* deps-dev: bump mocha from 9.1.3 to 9.1.4 (ce8d0fb72a2054f9bfac017f65376b45524bd876)
+* deps-dev: bump eslint from 8.6.0 to 8.7.0 (6f8be4a8de77939361914604fc339d4444356767)
+* deps: add explicit dep without vulnerability (#30) (5296aefe3210cf591f51c00425c13230d61d97a3)
+* deps: use google-p12 dep without vulnerability (#29) (8dde2f01f8ce1da45ab91d42e7bd04c3c581c63f)
+
 ## 0.5.2
 
 ### Other changes
