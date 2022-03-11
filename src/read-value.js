@@ -5,6 +5,7 @@
 const ERROR_CODES_NO_RETRY = new Set([
   3, // INVALID ARGUMENT
   5, // NOT FOUND
+  9, // DISABLED
 ]);
 // Error codes to ignore
 const ERROR_CODES_IGNORE = new Set([
@@ -55,11 +56,8 @@ async function readValue({
 async function readSecret({ client, isRetry = false, project, secret }) {
   try {
     const name = `projects/${project}/secrets/${secret}/versions/latest`;
-    let [version] = await client.getSecretVersion({ name });
-    if (version.state === 'ENABLED') {
-      [version] = await client.accessSecretVersion({ name });
-      return version.payload.data.toString();
-    }
+    const [version] = await client.accessSecretVersion({ name });
+    return version.payload.data.toString();
   } catch (e) {
     if (!isRetry && !ERROR_CODES_NO_RETRY.has(e.code)) {
       // Retry once to mitigate intermittent network failure
