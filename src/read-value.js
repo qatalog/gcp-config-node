@@ -46,7 +46,7 @@ async function readValue({
     }
   }
 
-  if (file !== undefined && typeof file !== 'object') {
+  if (file !== undefined && (typeof file !== 'object' || Array.isArray(file))) {
     return file;
   }
 

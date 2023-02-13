@@ -20,6 +20,7 @@ suite('options:', () => {
       foo: randomString(),
       bar: randomString(),
       wibble: randomString(),
+      blee: [randomString(), randomString()],
     };
     secretKeys = {
       foo: `foo_${randomString()}`,
@@ -42,6 +43,9 @@ suite('options:', () => {
         wibble: {
           default: defaults.wibble,
           secret: secretKeys.wibble,
+        },
+        blee: {
+          default: defaults.blee,
         },
       },
     };
@@ -91,6 +95,7 @@ suite('options:', () => {
         bar: defaults.bar,
         qux: {
           wibble: defaults.wibble,
+          blee: defaults.blee,
         },
       });
     });
@@ -120,6 +125,7 @@ suite('options:', () => {
         baz: `${prefix}${secretKeys.baz} set from gcp`,
         qux: {
           wibble: `${prefix}${secretKeys.wibble} set from gcp`,
+          blee: defaults.blee,
         },
       });
     });
