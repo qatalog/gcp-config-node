@@ -1,5 +1,11 @@
 # History
 
+## 0.7.0
+
+### New features
+
+* coerce: implement coercion from string to array (d0c014800de81598329cfe8c768820a714a071ed)
+
 ## 0.6.0
 
 ### New features
