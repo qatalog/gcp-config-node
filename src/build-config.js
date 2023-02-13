@@ -3,8 +3,11 @@
 const { assert } = require('check-types');
 const joi = require('joi');
 
-const coerce = {
+const coerceAfter = {
   duration: require('./coerce-duration'),
+};
+const coerceBefore = {
+  string: require('./coerce-string'),
 };
 const readValue = require('./read-value');
 
@@ -34,12 +37,18 @@ async function buildConfig({
   }
 
   if (value !== undefined) {
+    if (schema.coerce && coerceBefore[schema.coerce.from]) {
+      const coercion = coerceBefore[schema.coerce.from][schema.coerce.to];
+      assert.function(coercion, `\`${path}.coerce\` must be a function`);
+      value = coercion(value);
+    }
+
     if (schema.schema) {
       value = joi.attempt(value, schema.schema);
     }
 
-    if (schema.coerce) {
-      const coercion = coerce[schema.coerce.from][schema.coerce.to];
+    if (schema.coerce && coerceAfter[schema.coerce.from]) {
+      const coercion = coerceAfter[schema.coerce.from][schema.coerce.to];
       assert.function(coercion, `\`${path}.coerce\` must be a function`);
       value = coercion(value);
     }
@@ -51,7 +60,7 @@ async function buildConfig({
 
   await Promise.all(
     Object.entries(schema).map(async ([key, value]) => {
-      if (value && typeof value === 'object') {
+      if (value && typeof value === 'object' && !Array.isArray(value)) {
         if (!config) {
           config = {};
         }

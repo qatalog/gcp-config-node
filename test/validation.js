@@ -25,6 +25,15 @@ const SCHEMA = {
     env: 'BAZ',
     schema: joi.string().isoDuration(),
   },
+  qux: {
+    coerce: {
+      from: 'string',
+      to: 'array',
+    },
+    default: '["wibble"]',
+    env: 'QUX',
+    schema: joi.array().items(joi.valid('wibble', 'blee', 'mnngh')),
+  },
 };
 
 suite('validation:', () => {
@@ -47,6 +56,7 @@ suite('validation:', () => {
         foo: 'wibble',
         bar: 42,
         baz: 5000,
+        qux: ['wibble'],
       });
     });
   });
@@ -56,6 +66,7 @@ suite('validation:', () => {
       process.env.FOO = 'foo set from environment';
       process.env.BAR = '1977';
       process.env.BAZ = 'P1D';
+      process.env.QUX = '["blee","mnngh"]';
       config = await impl.load({
         project: GCP_PROJECT,
         schema: SCHEMA,
@@ -65,6 +76,8 @@ suite('validation:', () => {
     suiteTeardown(() => {
       delete process.env.FOO;
       delete process.env.BAR;
+      delete process.env.BAZ;
+      delete process.env.QUX;
     });
 
     test('result was correct', () => {
@@ -72,6 +85,7 @@ suite('validation:', () => {
         foo: 'foo set from environment',
         bar: 1977,
         baz: 86400000,
+        qux: ['blee', 'mnngh'],
       });
     });
   });

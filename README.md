@@ -246,29 +246,54 @@ about validation and type coercion.
 ## Can I specify type coercion options in the schema?
 
 Yes.
-Nodes with a `joi.string().isoDuration()` schema
-can also have a `coerce` option
-that marshalls the resulting value to the equivalent number
-of milliseconds or seconds:
 
-```js
-const config = await gcpConfig.load({
-  project: process.env.GCP_PROJECT,
+* Nodes with a `joi.array()` schema
+  can have a `coerce` option
+  that marshalls the JSON array string
+  to a JS array object:
 
-  schema: {
-    foo: {
-      coerce: {
-        from: 'duration',
-        to: 'milliseconds',
+  ```js
+  const config = await gcpConfig.load({
+    project: process.env.GCP_PROJECT,
+
+    schema: {
+      foo: {
+        coerce: {
+          from: 'string',
+          to: 'array',
+        },
+        schema: joi.array().items(joi.valid('wibble', 'blee')),
+        secret: 'foo',
       },
-      schema: joi.string().isoDuration(),
-      secret: 'foo',
     },
-  },
-});
+  });
 
-assert(typeof config.foo === 'number');
-```
+  assert(Array.isArray(config.foo));
+  ```
+
+* Nodes with a `joi.string().isoDuration()` schema
+  can have a `coerce` option
+  that marshalls the duration string
+  to the equivalent number of milliseconds or seconds:
+
+  ```js
+  const config = await gcpConfig.load({
+    project: process.env.GCP_PROJECT,
+
+    schema: {
+      foo: {
+        coerce: {
+          from: 'duration',
+          to: 'milliseconds',
+        },
+        schema: joi.string().isoDuration(),
+        secret: 'foo',
+      },
+    },
+  });
+
+  assert(typeof config.foo === 'number');
+  ```
 
 It's likely we'll add more type coercion options in future.
 
