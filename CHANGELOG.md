@@ -1,5 +1,23 @@
 # History
 
+## 0.6.0
+
+### New features
+
+* file: support loading arrays from file (5a1814cb65c9f0cf219b2a914c988df4959bacf7)
+
+### Other changes
+
+* deps: `npm audit fix` (b12af674eb9153229370240399bde210c299a513)
+* deps-dev: bump joi from 17.7.0 to 17.7.1 (28dd584083ffb065d71387cfea05294fa6686838)
+* deps-dev: bump prettier from 2.8.3 to 2.8.4 (ffa8d229759b8c914adfcce8c9848b94ef891b1e)
+* deps-dev: bump lint-staged from 13.1.0 to 13.1.1 (21110e46522d73e27d2559df3198e9fde3de94c0)
+* deps: bump @sideway/formula from 3.0.0 to 3.0.1 (a64fdff74531ea374c9af6215ec40e3c7bebbce3)
+* deps-dev: bump eslint from 8.32.0 to 8.33.0 (b40a03d66652a156adc6e817043fef199b068ce5)
+* deps-dev: bump prettier from 2.8.2 to 2.8.3 (db778b121ce0061f069bd6840d957939fd62ee5d)
+* deps-dev: bump eslint from 8.31.0 to 8.32.0 (e8a357deb9c2545f6c182def2867fa179aa9dc3f)
+* deps-dev: bump prettier from 2.8.1 to 2.8.2 (f72c6a9ca1fbb73003c8a515f4f4e03cf16a705c)
+
 ## 0.5.4
 
 ### Other changes
