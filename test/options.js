@@ -47,6 +47,10 @@ suite('options:', () => {
         blee: {
           default: defaults.blee,
         },
+        array: [
+          { default: defaults.foo, secret: `array_0_${secretKeys.foo}` },
+          { default: defaults.bar, secret: `array_1_${secretKeys.foo}` },
+        ],
       },
     };
   });
@@ -96,6 +100,7 @@ suite('options:', () => {
         qux: {
           wibble: defaults.wibble,
           blee: defaults.blee,
+          array: [defaults.foo, defaults.bar],
         },
       });
     });
@@ -126,6 +131,10 @@ suite('options:', () => {
         qux: {
           wibble: `${prefix}${secretKeys.wibble} set from gcp`,
           blee: defaults.blee,
+          array: [
+            `${prefix}array_0_${secretKeys.foo} set from gcp`,
+            `${prefix}array_1_${secretKeys.foo} set from gcp`,
+          ],
         },
       });
     });
@@ -152,6 +161,16 @@ async function setupSecrets(client, secretKeys, prefix = '') {
       parent: `projects/${GCP_PROJECT}`,
       secret: { replication: { automatic: {} } },
       secretId: `${prefix}${secretKeys.wibble}`,
+    }),
+    client.createSecret({
+      parent: `projects/${GCP_PROJECT}`,
+      secret: { replication: { automatic: {} } },
+      secretId: `${prefix}array_0_${secretKeys.foo}`,
+    }),
+    client.createSecret({
+      parent: `projects/${GCP_PROJECT}`,
+      secret: { replication: { automatic: {} } },
+      secretId: `${prefix}array_1_${secretKeys.foo}`,
     }),
   ]);
   const secrets = results.map((r) => r[0].name);

@@ -60,9 +60,13 @@ async function buildConfig({
 
   await Promise.all(
     Object.entries(schema).map(async ([key, value]) => {
-      if (value && typeof value === 'object' && !Array.isArray(value)) {
+      if (value && typeof value === 'object') {
         if (!config) {
-          config = {};
+          if (Array.isArray(schema)) {
+            config = [];
+          } else {
+            config = {};
+          }
         }
 
         const childValue = await buildConfig({

@@ -2,6 +2,7 @@
   "foo": "foo set from file",
   "qux": {
     "wibble": "wibble set from file",
-    "blee": ["fee", "fi", "fo", "fum"]
+    "blee": ["fee", "fi", "fo", "fum"],
+    "array": ["0 set from file", "1 set from file"]
   }
 }
