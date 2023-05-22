@@ -1,5 +1,44 @@
 # History
 
+## 0.7.1
+
+### Bug fixes
+
+* schema: sanely traverse arrays (c07757c6bca13ae255046f1d14f93d88d3b6c0ad)
+
+### Other changes
+
+* deps-dev: bump sinon from 15.0.4 to 15.1.0 (00cdaee26120fafc9031d1ea425509e49c207eb7)
+* deps-dev: bump eslint from 8.39.0 to 8.40.0 (26ec630bc2ea2bcc3f14212de33c816a261ef463)
+* deps-dev: bump lint-staged from 13.2.1 to 13.2.2 (44b8c95c0b3f6b29e54d3098fcf3be41871e2797)
+* deps-dev: bump joi from 17.9.1 to 17.9.2 (7014c959b4b5b9aa63a8ac80ffdd0286f3169236)
+* deps: bump yaml from 2.2.1 to 2.2.2 (c26df18533a5b0e9da981272b6bf73db5fd3b6ae)
+* deps-dev: bump prettier from 2.8.7 to 2.8.8 (529c8f17882b4383214d59b7f4427838d3416e72)
+* deps-dev: bump eslint from 8.38.0 to 8.39.0 (60d69a54da2f6966be1b91a4f46377d28d3828c6)
+* deps-dev: bump sinon from 15.0.3 to 15.0.4 (907b2105d9233cdf015db3e32952479eaef96aab)
+* deps: bump @google-cloud/secret-manager from 4.2.1 to 4.2.2 (8698e68a011d4811f4c802c41d2e188ceb97bce8)
+* deps-dev: bump eslint from 8.37.0 to 8.38.0 (eaca2d3aad21c3c62c343a2009facce048d44d7f)
+* deps-dev: bump lint-staged from 13.2.0 to 13.2.1 (43e39646846566e2369696bd0a58954730cfa72d)
+* deps-dev: bump eslint from 8.36.0 to 8.37.0 (5e1504f0262b3fc716b2898f3393809b00127750)
+* deps-dev: bump sinon from 15.0.2 to 15.0.3 (73ece08bb52985c37a7d07a795705f5662350ef2)
+* deps-dev: bump prettier from 2.8.6 to 2.8.7 (3286c323e4dc4277bf554dafb13c99ba5dfb940b)
+* deps-dev: bump joi from 17.9.0 to 17.9.1 (eefd719fea7d0bf131b6f798d826f92bc37de4dd)
+* deps-dev: bump prettier from 2.8.5 to 2.8.6 (84dffbbf30fd828b316c99cd9abd3b88f330cad6)
+* deps-dev: bump prettier from 2.8.4 to 2.8.5 (6401b91541775cc1404bedac9afdd70764957037)
+* deps-dev: bump eslint-config-prettier from 8.7.0 to 8.8.0 (489e55e66cc5089d5bdb707673ede8536c0a4736)
+* deps-dev: bump joi from 17.8.4 to 17.9.0 (cb0d420320001fb70fa2931166cb3e0b31eebb56)
+* deps-dev: bump joi from 17.8.3 to 17.8.4 (a54b818a99527755fb20e3b436bd3231b3abd582)
+* deps-dev: bump eslint from 8.35.0 to 8.36.0 (6c8f51b510d7838c2a28464f4fef1437ec61c8ef)
+* deps-dev: bump sinon from 15.0.1 to 15.0.2 (bd121c51e58d521bc428e19201189a0e67087b65)
+* deps-dev: bump lint-staged from 13.1.2 to 13.2.0 (f87b6e2fa3a0971f269de72d52356c08a30279e1)
+* deps-dev: bump eslint-config-prettier from 8.6.0 to 8.7.0 (9f0d82095ffb465f2ce0afd124bdada75ae97f41)
+* deps-dev: bump eslint from 8.34.0 to 8.35.0 (a45b465c71d715f67e86ec3cfb1e028d2d49072f)
+* deps-dev: bump joi from 17.8.1 to 17.8.3 (718fce1c61759879a686bda35061b8bcd1e89609)
+* deps-dev: bump joi from 17.7.1 to 17.8.1 (6fca8f3eae01224808aaf1e6379f17a89333f863)
+* deps: bump @google-cloud/secret-manager from 4.2.0 to 4.2.1 (f17b80acea54b3b814bf7e2e03b545d17d0dde15)
+* deps-dev: bump lint-staged from 13.1.1 to 13.1.2 (1bdba40b77afb8aed21305c39db4a9f871a8fa06)
+* deps-dev: bump eslint from 8.33.0 to 8.34.0 (88eeb1ab658ed6a8904ce1764ba9be3822173afb)
+
 ## 0.7.0
 
 ### New features
