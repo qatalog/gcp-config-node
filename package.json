@@ -38,6 +38,9 @@
   },
   "main": "src/index.js",
   "name": "@qatalog/gcp-config",
+  "overrides": {
+    "optionator": "^0.9.3"
+  },
   "peerDependencies": {
     "joi": ">=6.7.0"
   },
