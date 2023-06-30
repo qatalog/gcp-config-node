@@ -1,5 +1,18 @@
 # History
 
+## 0.7.2
+
+### Other changes
+
+* deps: `npm audit fix` (b9eef10c0ef5ca943065a4496434ff7ce9f8f9d4)
+* deps: bump semver from 7.4.0 to 7.5.3 (a5b88e734aaca742400d7b21fd618c1bfeec382a)
+* deps-dev: bump lint-staged from 13.2.2 to 13.2.3 (afe3f8608c7cc392a33c2a25c9fec44a33e72e80)
+* deps-dev: bump sinon from 15.1.2 to 15.2.0 (f85a36c7df475c35b4ce448e26b6c07bd3ca6ed7)
+* deps-dev: bump eslint from 8.42.0 to 8.43.0 (98d9b35a3ffa83a267d674f386d6324e927fd3b9)
+* deps-dev: bump sinon from 15.1.0 to 15.1.2 (b5d1e7196f24f3c71a75733746df29f6e36c9e10)
+* deps-dev: bump eslint from 8.41.0 to 8.42.0 (799a683495a2c2aa7bc7be5f2e14886b924a6f42)
+* deps-dev: bump eslint from 8.40.0 to 8.41.0 (b27d538b3c2b88f850e5518410836d9b4628cd12)
+
 ## 0.7.1
 
 ### Bug fixes
