@@ -1,5 +1,11 @@
 # History
 
+## 0.7.4
+
+### Other changes
+
+* deps: upgrade more deps (932b2c23a5eeaa1ef7d8c639daa4ad94f205301b)
+
 ## 0.7.3
 
 ### Other changes
