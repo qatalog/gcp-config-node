@@ -1,5 +1,13 @@
 # History
 
+## 0.7.3
+
+### Other changes
+
+* deps: fix eslint/prettier plugin version conflict (4d3400f1ed6acdce1a09e6e640e98c75534c473f)
+* deps-dev: bump prettier from 2.8.8 to 3.0.0 (287cc7c29b155a7c01c45c81a3b8608db9d5b1f6)
+* deps-dev: bump eslint from 8.43.0 to 8.44.0 (5b82ac83684a6295358520eae384bee5d7bdecfd)
+
 ## 0.7.2
 
 ### Other changes
