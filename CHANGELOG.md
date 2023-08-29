@@ -1,5 +1,28 @@
 # History
 
+## 0.7.5
+
+### Other changes
+
+* deps-dev: bump prettier from 3.0.2 to 3.0.3 (ec36de8f0c9b34635f6d0ca49f4d5e8ac8eb06e6)
+* deps: bump google-p12-pem from 4.0.1 to 5.0.0 (41255af3641d3775b7085420c52e84bc71fa393a)
+* deps-dev: bump eslint from 8.47.0 to 8.48.0 (70530d953ec1b14545c9abc60bd8e135a4972f13)
+* deps-dev: bump joi from 17.9.2 to 17.10.0 (c0954bd57cff652c3583e575a0f9d230024bcc09)
+* deps-dev: bump chai from 4.3.7 to 4.3.8 (0affec19c99d6672083ee8678f6a7a5e9aab8fdc)
+* deps-dev: bump lint-staged from 14.0.0 to 14.0.1 (c3bb92b108174e26c4e36162396f814496a31ada)
+* deps-dev: bump prettier from 3.0.1 to 3.0.2 (f73db4ae16a42231accf0a9ec7c923031e2488ff)
+* deps-dev: bump lint-staged from 13.2.3 to 14.0.0 (9efe90cb68145f9c500d8a9a37961a8707a4e9ed)
+* deps-dev: bump eslint from 8.46.0 to 8.47.0 (ef730ef798874da4964407be169fa3d3adeaf1f6)
+* deps: bump @google-cloud/secret-manager from 4.2.2 to 5.0.0 (b863796e8eb2cff9baca1207f855aa1f075a52bd)
+* deps-dev: bump eslint-config-prettier from 8.10.0 to 9.0.0 (291d05ae36e19c5ea66c6c3753a031dcd961c0be)
+* deps-dev: bump prettier from 3.0.0 to 3.0.1 (c916047e8a02a2b5843fa713ff3f2fdd40b07044)
+* deps-dev: bump eslint-config-prettier from 8.9.0 to 8.10.0 (f6a45abeb37350215e89c54b69bd407beb91bb79)
+* deps-dev: bump eslint from 8.45.0 to 8.46.0 (e9020e1d77825f3b5c11c4cb386ca7861e48b0b4)
+* deps-dev: bump eslint-config-prettier from 8.8.0 to 8.9.0 (0026375365c32d60c8169cde0e2895f4ddc7701d)
+* deps-dev: bump eslint from 8.44.0 to 8.45.0 (a61b962fe983a60fc9f0f555aeacf2b5d6016fcb)
+* deps: bump protobufjs and google-gax (dd6760a43a75bba78265990502328c6e80dfc5df)
+* deps-dev: bump eslint-plugin-prettier from 5.0.0-alpha.2 to 5.0.0 (e68dea11a91adeb9d3531f9d803332253f672288)
+
 ## 0.7.4
 
 ### Other changes
