@@ -1,5 +1,23 @@
 # History
 
+## 0.7.6
+
+### Other changes
+
+* deps: bump some dependency patch levels (a4b8791f4c82bff05738cac8100f1dee366e2ee3)
+* deps-dev: bump sinon from 16.0.0 to 16.1.0 (8c5477a4bed6be664bbcc482487c3b45c327ea34)
+* deps-dev: bump joi from 17.10.2 to 17.11.0 (b7e293a6fc9546708ef4e768ebbe613e4c81bcdc)
+* deps-dev: bump chai from 4.3.9 to 4.3.10 (2176f05c05d4c83e798ebaba31eb1631a844695f)
+* deps-dev: bump chai from 4.3.8 to 4.3.9 (982229425b82c12abc64d9344425c08d4aade2f8)
+* deps-dev: bump eslint-plugin-mocha from 10.1.0 to 10.2.0 (3c6d0eddce28d13b9a821b632e91faefea05fd27)
+* deps-dev: bump eslint from 8.49.0 to 8.50.0 (c59a55cca02601eb6ee8f3f5ca5ea36fb7d93ea1)
+* deps-dev: bump joi from 17.10.1 to 17.10.2 (a69fbb9c25f0765dcc1f304c52a9fc3187015a47)
+* deps-dev: bump sinon from 15.2.0 to 16.0.0 (01081cdba6f84b74ea9d9f2d196d95522baecde4)
+* deps-dev: bump eslint from 8.48.0 to 8.49.0 (ce6e55f522c539a5316e6df7dd8fce3f2cb2832e)
+* deps: bump check-types from 11.2.2 to 11.2.3 (08308c6faa7f91720e25a025b8b6dd145337b715)
+* deps: bump @google-cloud/secret-manager from 5.0.0 to 5.0.1 (d4e5be1c1fbcc8164dbcc23b97676b1d79754a75)
+* deps-dev: bump joi from 17.10.0 to 17.10.1 (8f85d0f75a40c55999b43ef3ac32e0897f54cb0f)
+
 ## 0.7.5
 
 ### Other changes
