@@ -192,4 +192,60 @@ suite('read-value:', () => {
       assert.equal(mockClient.accessSecretVersion.callCount, 0);
     });
   });
+
+  suite('version:', () => {
+    let mockClient;
+    setup(() => {
+      mockClient = {
+        accessSecretVersion: sinon.stub(),
+      };
+    });
+
+    test('read-value uses specific version when "version" is present in the schema', async () => {
+      mockClient.accessSecretVersion.callsFake(() =>
+        Promise.resolve([{ payload: { data: 'value' } }]),
+      );
+
+      const version = 1;
+      const secret = 'foo';
+
+      await buildConfig({
+        client: mockClient,
+        project: GCP_PROJECT,
+        schema: {
+          version,
+          secret,
+        },
+      });
+
+      assert.equal(mockClient.accessSecretVersion.callCount, 1);
+      assert(
+        mockClient.accessSecretVersion.calledWithMatch({
+          name: `projects/${GCP_PROJECT}/secrets/${secret}/versions/${version}`,
+        }),
+      );
+    });
+
+    test('read-value uses latest version when "version" is not present in the schema', async () => {
+      mockClient.accessSecretVersion.callsFake(() =>
+        Promise.resolve([{ payload: { data: 'value' } }]),
+      );
+      const secret = 'foo';
+
+      await buildConfig({
+        client: mockClient,
+        project: GCP_PROJECT,
+        schema: {
+          secret,
+        },
+      });
+
+      assert.equal(mockClient.accessSecretVersion.callCount, 1);
+      assert(
+        mockClient.accessSecretVersion.calledWithMatch({
+          name: `projects/${GCP_PROJECT}/secrets/${secret}/versions/latest`,
+        }),
+      );
+    });
+  });
 });
