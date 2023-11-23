@@ -366,7 +366,21 @@ effectively they don't exist at all.
 
 ## How are secrets with multiple versions handled?
 
-The greatest, non-disabled version of the secret will be used.
+The greatest, non-disabled version of the secret will be used by default.
+For using a specific version set `version: <your_version>` in the schema.
+
+```js
+const config = await gcpConfig.load({
+  project: process.env.GCP_PROJECT,
+
+  schema: {
+    foo: {
+      version: 1, // Specific version. Make sure this version exists or it is not disabled.
+      secret: 'foo',
+    },
+  },
+});
+```
 
 ## Can secret names be prefixed with the runtime environment?
 

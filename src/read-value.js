@@ -22,7 +22,7 @@ async function readValue({
   project,
   schema,
 }) {
-  let { env, secret: schemaSecret } = schema;
+  let { env, secret: schemaSecret, version } = schema;
   if (typeof env !== 'string') {
     env = undefined;
   }
@@ -40,7 +40,7 @@ async function readValue({
       secret = `${prefix}${secret}`;
     }
 
-    const value = await readSecret({ client, project, secret });
+    const value = await readSecret({ client, project, secret, version });
     if (value !== undefined) {
       return value;
     }
@@ -53,15 +53,16 @@ async function readValue({
   return schema.default;
 }
 
-async function readSecret({ client, isRetry = false, project, secret }) {
+async function readSecret({ client, isRetry = false, project, secret, version }) {
+  version ??= 'latest';
   try {
-    const name = `projects/${project}/secrets/${secret}/versions/latest`;
-    const [version] = await client.accessSecretVersion({ name });
-    return version.payload.data.toString();
+    const name = `projects/${project}/secrets/${secret}/versions/${version}`;
+    const [{ payload }] = await client.accessSecretVersion({ name });
+    return payload.data.toString();
   } catch (e) {
     if (!isRetry && !ERROR_CODES_NO_RETRY.has(e.code)) {
       // Retry once to mitigate intermittent network failure
-      return readSecret({ client, isRetry: true, project, secret });
+      return readSecret({ client, isRetry: true, project, secret, version });
     }
 
     if (!ERROR_CODES_IGNORE.has(e.code)) {
