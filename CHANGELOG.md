@@ -1,5 +1,29 @@
 # History
 
+## 0.8.0
+
+### New features
+
+* api: implement `version` option (e40dd820d1be8c9f7312ea512ad097c20bdb08b6)
+
+### Other changes
+
+* code: `npm run format` (0e3e75f3662fd65589f99fe3fb18923d4fcdefe8)
+* docs: update `AUTHORS` (487b6e6213dbab710c5255efd266acc77bb29aed)
+* deps-dev: bump eslint from 8.53.0 to 8.54.0 (72c2e257c50de41e329c49a214d3650acacc9e22)
+* deps-dev: bump lint-staged from 15.0.2 to 15.1.0 (5e9a9b7e835efeaa51fbe76564d05b08e0a69ead)
+* deps-dev: bump prettier from 3.0.3 to 3.1.0 (e6babfbada13807bf8b20fb2b729ab29eb86ed50)
+* deps-dev: bump eslint from 8.52.0 to 8.53.0 (82dd0096ed99f327402b3ba2f3dfe6665dadfbf8)
+* deps-dev: bump sinon from 17.0.0 to 17.0.1 (7a7d35cc722aa0922fceef076c342c223186f858)
+* deps-dev: bump eslint from 8.51.0 to 8.52.0 (74b2427a90a29d0d9e1ed87797379e0818edcd67)
+* deps-dev: bump sinon from 16.1.3 to 17.0.0 (974a1a7fd5370ced7318c904b3bf0d68da90e7b7)
+* deps-dev: bump sinon from 16.1.1 to 16.1.3 (8e3d8b411826e1c5f053487dc7651068056a8ec2)
+* deps-dev: bump lint-staged from 15.0.1 to 15.0.2 (49c09f608800291a11e45638c088ad61fab9bba4)
+* deps-dev: bump lint-staged from 14.0.1 to 15.0.1 (cddb0582f5c7e09f7d55bf70c2b6ec804ba49fb7)
+* deps-dev: bump sinon from 16.1.0 to 16.1.1 (3c108bfbe4985565ee53dc98baae27b9e4557de1)
+* deps-dev: bump eslint-plugin-prettier from 5.0.0 to 5.0.1 (86f3de4c956d1f6714a5126baa3ca817de0c98bb)
+* deps-dev: bump eslint from 8.50.0 to 8.51.0 (771b05743c988f91196a482a89e6079db9fc1bf6)
+
 ## 0.7.6
 
 ### Other changes
