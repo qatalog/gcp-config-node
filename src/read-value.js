@@ -53,7 +53,13 @@ async function readValue({
   return schema.default;
 }
 
-async function readSecret({ client, isRetry = false, project, secret, version }) {
+async function readSecret({
+  client,
+  isRetry = false,
+  project,
+  secret,
+  version,
+}) {
   version ??= 'latest';
   try {
     const name = `projects/${project}/secrets/${secret}/versions/${version}`;
