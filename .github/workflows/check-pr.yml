@@ -12,7 +12,7 @@ jobs:
       contents: read
     strategy:
       matrix:
-        node: ['14', '16', '17']
+        node: ['18', '20', '21']
     env:
       GCP_PROJECT: qatalog-gcp-config-test
     steps:
