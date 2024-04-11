@@ -1,5 +1,42 @@
 # History
 
+## 0.8.1
+
+### Other changes
+
+* ci: run tests in node 18, 20 and 21 (c28fb3bec07889dfdf0c80c3e795f9322f3d5cf0)
+* deps: upgrade `@google-cloud/secret-manager` to `5.3.0` (4d7910efb7d512ba8b43046bdc0a78211b328467)
+* deps: upgrade `eslint-plugin-mocha` to `10.4.2` (918fef0bf55cd2171ef411738934cb104c765954)
+* deps: upgrade `protobufjs` to `7.2.6` and `google-gax` to `4.3.2` (6e3d4d8fb54652f3ca747a9e776205002a43f470)
+* deps: upgrade `joi` to `17.12.3` (98243ce23335d4183fbdf7db09e571b717274a73)
+* deps: upgrade `mocha` to `10.4.0` (325a5b69587937a47b71c44beeb55856cb4411cc)
+* deps: upgrade `@google-cloud/secret-manager` to `5.3.0` (0f96ab4c42d30b68af67006f195a05cd710999a0)
+* deps: upgrade `@google-cloud/secret-manager` to `5.2.0` (1d7b3ba0d59e69ee57c5b3c18ad8dcf765aa0ee5)
+* deps: upgrade `eslint-plugin-mocha` to `10.4.1` (51c5ca46b05c5fb7b2641281b2e614c10b0cfde4)
+* deps: upgrade `eslint-plugin-moch` to `10.4.0` (4169b333b9af851f733133c1e8842a1b98e60570)
+* deps: upgrade `eslint` to `8.57.0` (91ca47c3c2717ba11827644f3ac7072a5bd12456)
+* deps: upgrade `joi` to `17.12.2` (2b029a4ef2d5671bc1f10c303c9d234203d77ce3)
+* deps: upgrade `eslint-plugin-mocha` to `10.3.0` (5ac82d0e2826f8cb91c898299078176f8f737706)
+* deps: upgrade `@google-cloud/secret-manager` to `5.1.0` (d4f5cc8a1f6ccf2e3a3abb4d26599c8e276213ba)
+* deps: upgrade `mocha` to `10.3.0` (8b9395d7b571397a770720d27516b195b9919ab5)
+* deps: upgrade `joi` to `17.12.1` (c6f6aeff903733d81cacda8231e01b2156ae26f9)
+* deps: upgrade `prettier` to `3.2.5` (fca2b21dd2f813df5bf654c5ea4cc62de5bcec55)
+* deps: upgrade `lint-staged` to `15.2.2` (8c103740f6fd4f2a050e5f85d8d40de1a458d651)
+* deps: upgrade `joi` to `17.12.0` (c901572f03619bc089c2fb61cfb287d1bc18666f)
+* deps: upgrade `prettier` to `3.2.4` (6a05158ffd91b85b9c0c6d24809e7aa1d36fc2e8)
+* deps: upgrade `prettier` to `3.2.2` (1fbbbbb3e3fdf6b81fc2e561617f18a75864ddde)
+* deps: upgrade `joi` to `17.11.1` (3ad4f78261be53e627294b732e086534deb844cd)
+* deps: upgrade `prettier` to `3.2.0` (70f09f2f0fd1f3c56479ffbe42dde6bcaa861679)
+* deps: upgrade `eslint-plugin-prettier` to `5.1.3` (aff4241c88c68780207d1556251c4ed6a8480c0b)
+* deps: upgrade `eslint-plugin-prettier` to `5.1.2` (05221212b706a70161058b36b480a3e09c385d84)
+* deps: upgrade `eslint-plugin-prettier` to `5.1.1` (88712efd3b0f0eaa5b5fa1e767cbc7ee98408386)
+* deps-dev: bump eslint-plugin-prettier from 5.0.1 to 5.1.0 (#236) (a2e03c1ac3d95591919269932bf135fc60e5ca82)
+* deps: upgrade `eslint` to `8.56.0` (7f82ec3b5fe2b013dd5638422e69431bb3b71b29)
+* deps: upgrade `prettier` to `3.1.1` (9b56a8bac46d60697f73b1de8e26b9f5759b2585)
+* deps-dev: bump lint-staged from 15.1.0 to 15.2.0 (#233) (ac636b96beadf919e788e19fa1e41434135800bc)
+* deps-dev: bump eslint-config-prettier from 9.0.0 to 9.1.0 (#232) (e0cd44169f07105c2c341057057783e2f76ea32f)
+* deps-dev: bump eslint from 8.54.0 to 8.55.0 (#231) (b8daf87a0cd038e0575676448e9acf0244efc4e7)
+
 ## 0.8.0
 
 ### New features
