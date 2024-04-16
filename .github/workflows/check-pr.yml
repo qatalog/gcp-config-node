@@ -24,12 +24,15 @@ jobs:
           node-version: ${{ matrix.node }}
       - name: install deps
         run: npm i
+      - uses: 'google-github-actions/auth@v2'
+        with:
+          create_credentials_file: true
+          credentials_json: ${{ secrets.TEST_SERVICE_ACCOUNT_KEY }}
+          project_id: qatalog-gcp-config-test
       - name: setup gcp
-        uses: google-github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: qatalog-gcp-config-test
-          service_account_key: ${{ secrets.TEST_SERVICE_ACCOUNT_KEY }}
-          export_default_credentials: true
       - name: lint
         run: npm run lint
       - name: test
