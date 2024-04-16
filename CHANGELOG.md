@@ -1,5 +1,17 @@
 # History
 
+## 1.0.0
+
+### Breaking changes
+
+* api: stop using `env` as fallback for `secret` (30e1bc121f16ccdeaa92e8732cfd58ed4eaa2094)
+
+### Other changes
+
+* ci: fix usage of `github/codeql-action` (c0dc935bf1937c4c11eeb0012a21ace2f4893f2a)
+* ci: fix usage of `google-github-actions/setup-gcloud` action (b4f34030718647650bc54f766f93cf24e9c774c2)
+* docs: update minimum node version in readme (0a1425d8e3b0c073ffb9a4b344a44ce367799595)
+
 ## 0.8.1
 
 ### Other changes
