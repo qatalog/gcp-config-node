@@ -22,8 +22,8 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: init
-        uses: github/codeql-action/init@v1
+        uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
       - name: analyse
-        uses: github/codeql-action/analyze@v1
+        uses: github/codeql-action/analyze@v3
