@@ -367,7 +367,7 @@ const config = await gcpConfig.load({
 
   schema: {
     foo: {
-      version: 1, // Specific version. Make sure this version exists or it is not disabled.
+      version: 1, // Specific version. Make sure this version exists and is not disabled.
       secret: 'foo',
     },
   },
@@ -452,7 +452,7 @@ GCP_PROJECT=my-gcp-project npm t
 
 ## What versions of Node does it support?
 
-Minimum supported node version is `14`.
+Minimum supported node version is `18`.
 
 ## Is there a changelog?
 
