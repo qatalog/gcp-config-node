@@ -24,7 +24,7 @@ suite('read-value:', () => {
         client: mockClient,
         project: GCP_PROJECT,
         schema: {
-          env: 'TEST',
+          secret: 'TEST',
         },
       }).catch(() => {});
 
@@ -39,7 +39,7 @@ suite('read-value:', () => {
         client: mockClient,
         project: GCP_PROJECT,
         schema: {
-          env: 'TEST',
+          secret: 'TEST',
         },
       }).catch(() => {});
 
@@ -54,7 +54,7 @@ suite('read-value:', () => {
         client: mockClient,
         project: GCP_PROJECT,
         schema: {
-          env: 'TEST',
+          secret: 'TEST',
         },
       }).catch(() => {});
 
@@ -69,7 +69,7 @@ suite('read-value:', () => {
         client: mockClient,
         project: GCP_PROJECT,
         schema: {
-          env: 'TEST',
+          secret: 'TEST',
         },
       }).catch(() => {});
 
@@ -96,7 +96,7 @@ suite('read-value:', () => {
           client: mockClient,
           project: GCP_PROJECT,
           schema: {
-            env: 'TEST',
+            secret: 'TEST',
           },
         });
       } catch (e) {
@@ -117,7 +117,7 @@ suite('read-value:', () => {
           client: mockClient,
           project: GCP_PROJECT,
           schema: {
-            env: 'TEST',
+            secret: 'TEST',
           },
         });
       } catch (e) {
@@ -138,7 +138,7 @@ suite('read-value:', () => {
           client: mockClient,
           project: GCP_PROJECT,
           schema: {
-            env: 'TEST',
+            secret: 'TEST',
           },
         });
       } catch (e) {
@@ -147,6 +147,18 @@ suite('read-value:', () => {
 
       assert.equal(mockClient.accessSecretVersion.callCount, 1);
       assert.isUndefined(error);
+    });
+
+    test('read-value does not try to fetch secret from GCP for schema.env', async () => {
+      await buildConfig({
+        client: mockClient,
+        project: GCP_PROJECT,
+        schema: {
+          env: 'TEST',
+        },
+      });
+
+      assert.equal(mockClient.accessSecretVersion.callCount, 0);
     });
   });
 
@@ -167,23 +179,6 @@ suite('read-value:', () => {
             secret: {
               default: 'super-private',
               doc: 'Crypto secret for email auth tokens',
-            },
-          },
-        },
-      });
-
-      assert.equal(mockClient.accessSecretVersion.callCount, 0);
-    });
-
-    test('read-value does not try to fetch secret from GCP when schema.env is not a string', async () => {
-      await buildConfig({
-        client: mockClient,
-        project: GCP_PROJECT,
-        schema: {
-          email: {
-            env: {
-              default: 'interesting-env',
-              doc: 'Environment to use in CI for tests',
             },
           },
         },

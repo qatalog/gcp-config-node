@@ -142,14 +142,6 @@ This can be especially useful
 if you want to test changes locally,
 without touching shared secrets.
 
-Sometimes `env` and `secret` have the same name
-and in those cases you can omit `secret` entirely if you like.
-When `secret` is not set,
-`load` optimistically tries to use `env`
-as the secret key instead.
-And if any non-`required` key is not found in Secret Manager it's non-fatal,
-regardless of whether it was set using `secret` or `env`.
-
 ## Can I read non-secret properties from file?
 
 Yes.
