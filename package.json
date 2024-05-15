@@ -20,7 +20,7 @@
     "mocha": "^10.2.0",
     "please-release-me": "^2.1.4",
     "prettier": "^3.0.3",
-    "sinon": "^17.0.0"
+    "sinon": "^18.0.0"
   },
   "description": "GCP-secrets integrated config loader",
   "engines": {
