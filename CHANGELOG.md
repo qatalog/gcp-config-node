@@ -1,5 +1,17 @@
 # History
 
+## 1.0.1
+
+### Other changes
+
+* deps: upgrade `eslint-plugin-mocha` to `10.4.3` (f14579b1cf8bee384701f9e1950317aff7a1f8e1)
+* deps: upgrade `sinon` to `18.0.0` (0fbee1ed9293f89b328a6b97f58f9f88d69054d0)
+* deps: upgrade `joi` to `17.13.1` (3ddb950d709e7aff00be6246a0df74c64d74ad53)
+* deps: upgrade `@google-cloud/secret-manager` to `5.6.0` (48351fe026dd629fe1a3ced9e68947afec87b280)
+* deps: upgrade `braces` to `3.0.3` (abfb487984faa3e7cb5fad4571db87c24b7bd098)
+* deps: upgrade `@grpc/grpc-js` to `1.10.9` (b9ed6757598450e7e6c11eadc30145a5cb879b57)
+* deps: upgrade `@google-cloud/secret-manager` to `5.4.0` (89f170232dcee5606e8226ac1aa18debd76167da)
+
 ## 1.0.0
 
 ### Breaking changes
