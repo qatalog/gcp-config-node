@@ -9,18 +9,18 @@
     "google-p12-pem": "^5.0.0"
   },
   "devDependencies": {
-    "chai": "^4.3.10",
-    "eslint": "^8.50.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-mocha": "^10.2.0",
-    "eslint-plugin-prettier": "^5.0.0-alpha.2",
-    "husky": "^8.0.3",
+    "chai": "^4.5.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-mocha": "^10.5.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "husky": "^9.1.7",
     "joi": ">=6.7.0",
-    "lint-staged": "^15.0.1",
-    "mocha": "^10.2.0",
-    "please-release-me": "^2.1.4",
-    "prettier": "^3.0.3",
-    "sinon": "^18.0.0"
+    "lint-staged": "^15.3.0",
+    "mocha": "^11.1.0",
+    "please-release-me": "^2.1.6",
+    "prettier": "^3.4.2",
+    "sinon": "^19.0.2"
   },
   "description": "GCP-secrets integrated config loader",
   "engines": {
@@ -53,7 +53,7 @@
     "check": "prettier -c .",
     "lint": "eslint src test",
     "format": "prettier -w .",
-    "prepare": "husky install",
+    "prepare": "husky",
     "release": "release",
     "test": "mocha --recurisve --ui tdd --timeout 8000 test"
   },
